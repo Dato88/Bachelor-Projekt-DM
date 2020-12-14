@@ -3,5 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Ready to go!")
+	fmt.Println("Ready to go go!")
 }
