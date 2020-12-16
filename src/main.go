@@ -1,14 +1,15 @@
 package main
 
 import (
-    	"io"
-    	"net/http"
-	"github.com/bmizerany/pat"
+	"io"
 	"log"
+	"net/http"
+
+	"github.com/bmizerany/pat"
 )
 
 func HelloServer(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello, " + req.URL.Query().Get(":name")+"!\n")
+	io.WriteString(w, "Hallo mein kleiner Freund, "+req.URL.Query().Get(":name")+"!\n")
 }
 
 func main() {
