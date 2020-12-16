@@ -10,7 +10,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var addr = ":80"
+var addr = ":8080"
 var staticDir = "./static"
 
 var redetDB = false
