@@ -14,7 +14,7 @@ import (
 )
 
 // Port 80 und Verzeichnis mit den HTML Dateien
-var addr = ":80"
+var addr = ":8080"
 var staticDir = "./static"
 
 // Rücksetzen der Datenbank ?
