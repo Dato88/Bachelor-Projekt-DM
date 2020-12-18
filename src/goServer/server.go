@@ -43,12 +43,24 @@ func FindAcc(w http.ResponseWriter, req *http.Request) {
 	allAcc(w)
 }
 
+func FindGroup(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "Gruppenchat Anzeigen!"+"\n")
+	selGroup1(w)
+}
+
 //AddMSG um eine Nachricht zu Speichern
 func AddMSG(w http.ResponseWriter, req *http.Request) {
 	insertMSG(req.URL.Query().Get(":message"))
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
+//AddGroupMSG eine Nachricht für die Gruppe Speichern
+func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
+	insertMSG(req.URL.Query().Get(":message"))
+	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
+}
+
+//ListAllMSG alle gespeicherten Nachrichten Anzeigen
 func ListAllMSG(w http.ResponseWriter, req *http.Request) {
 	allMSG(w)
 }
@@ -62,6 +74,9 @@ func main() {
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:degreeCourse/:semester", http.HandlerFunc(CreateAcc))
 	//localhost:8080/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
+	m.Get("/group1/add/:firstName/:chatID/:gesendetVon/:gesendetNach/:message/:gesendeteUhrzeit/:empfID/:chatID/groupID", http.HandlerFunc(AddGroupMSG))
+	//localhost:8080/group1/search
+	m.Get("/group1/search", http.HandlerFunc(FindGroup))
 
 	DbInit()
 
@@ -87,38 +102,35 @@ func DbInit() {
 			fdNummer VARCHAR(256) PRIMARY KEY,
 			vorname VARCHAR(256),
 			nachname VARCHAR(256),
-			age VARCHAR(256),
+			age INTEGER,
 			studiengang VARCHAR(256),
 			semester INTEGER
 			);
 
 		CREATE TABLE nachrichten (
 			nachrichtID INTEGER PRIMARY KEY AUTOINCREMENT,
-			fdNummer VARCHAR(256), 
+			gesendetVon INTEGER,
+			gesendetNach INTEGER,
 			message VARCHAR(256),
 			gesendeteUhrzeit VARCHAR(256)
 			);
 
 		CREATE TABLE chatgroup (
-			anzNachrichten INTEGER,
 			chatID INTEGER PRIMARY KEY,
+			groupName VARCHAR(256),
 			anzUser VARCHAR(256),
+			anzNachrichten INTEGER AUTOINCREMENT,
 			empfangenUhrzeit VARCHAR(256)
 			);
 		
 		CREATE TABLE senden (
-			fdNummer VARCHAR(256),
-			nachrichtenID INTEGER PRIMARY KEY
+			absender VARCHAR(256),
+			chatID INTEGER
 			);
 		
 		CREATE TABLE empfangen (
-			nachrichtenID INTEGER PRIMARY KEY,
-			charID INTEGER
-			);
-		
-		CREATE TABLE zeigtan (
-			charID INTEGER,
-			fdNummer VARCHAR(256) PRIMARY KEY
+			empfID INTEGER,
+			chatID INTEGER
 			);
 	`
 
@@ -178,6 +190,23 @@ func insertMSG(message string) {
 	fmt.Println(newID)
 }
 
+func groupMSG(message string) {
+	stmt, snd := mainDB.Prepare("INSERT INTO senden(absender, chatID) values (?, ?)")
+	checkErr(snd)
+
+	stmt, empf := mainDB.Prepare("INSERT INTO empfangen(empfID, chatID) values (?, ?)")
+	checkErr(empf)
+
+	stmt, nd := mainDB.Prepare("INSERT INTO nachrichten(nachrichtenID, gesendetVon, gesendetNach, message, gesendeteUhrzeit) values (?, ?, ?, ?, ?)")
+	checkErr(nd)
+
+	result, errExec := stmt.Exec(message)
+	checkErr(errExec)
+
+	newID, _ := result.LastInsertId()
+	fmt.Println(newID)
+}
+
 func allMSG(w http.ResponseWriter) {
 	stmt, err := mainDB.Prepare(" SELECT * FROM nachrichten")
 	checkErr(err)
@@ -186,6 +215,17 @@ func allMSG(w http.ResponseWriter) {
 	checkErr(errQuery)
 
 	processRows(w, rows)
+}
+
+func selGroup1(w http.ResponseWriter) {
+	stmt, err := mainDB.Prepare("SELECT vorname message	FROM user senden nachrichten empfangen chatgroup WHERE fdNummer = absender AND chatID = gesendetVon AND gesendetNach = empfID AND chatID = groupID")
+
+	checkErr(err)
+
+	rows, errQuery := stmt.Query()
+	checkErr(errQuery)
+
+	groupRows(w, rows)
 }
 
 func processRows(w http.ResponseWriter, rows *sql.Rows) {
@@ -215,6 +255,18 @@ func pRallAcc(w http.ResponseWriter, rows *sql.Rows) {
 
 		fmt.Fprintf(w, "fd-Nummer: %s, \nVorname: %s, \nNachname: %s, \nAlter: %s, \nStudiengang: %s, \nSemester: %s\n",
 			string(FD), string(vorname), string(nachname), string(age), string(studiengang), string(semester))
+	}
+}
+
+func groupRows(w http.ResponseWriter, rows *sql.Rows) {
+	var vorname string
+	var message string
+
+	for rows.Next() {
+		err := rows.Scan(&vorname, &message)
+		checkErr(err)
+
+		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
 }
 
