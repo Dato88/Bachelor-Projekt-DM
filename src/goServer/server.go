@@ -78,7 +78,7 @@ func main() {
 	//localhost:8080/group1/search
 	m.Get("/group1/search", http.HandlerFunc(FindGroup))
 
-	DbInit()
+	//DbInit()
 
 	http.Handle("/group1/", m)
 	http.Handle("/create/", m)
