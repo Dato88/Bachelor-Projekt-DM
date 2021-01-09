@@ -1,0 +1,8 @@
+Hallo, das ist eine Testdatei, um zu verstehen wie das commit und fetch geht!
+
+
+Ich hoffe du hast einen schönen Tag! 
+
+
+
+Go rockt.........
