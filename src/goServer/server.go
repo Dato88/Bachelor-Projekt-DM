@@ -23,7 +23,7 @@ const dbFile = "serverNachrichten.db"
 
 var mainDB *sql.DB
 
-//HelloServer URL zum testen => localhost:80/group1/hello/andrej
+//HelloServer URL zum testen => localhost:80/fachbereich/studiengang/semester/group1/hello/andrej
 func HelloServer(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Server ist Online, "+req.URL.Query().Get(":name")+"!\n")
 }
@@ -70,20 +70,21 @@ func ListAllMSG(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	m := pat.New()
-	m.Get("/group1/hello/:name", http.HandlerFunc(HelloServer))
-	m.Get("/group1/add/:message", http.HandlerFunc(AddMSG))
-	m.Get("/group1/list/all", http.HandlerFunc(ListAllMSG))
-	//localhost:8080/create/acc/fdai5761/Andrej/Miller/32/DM/5
+	m.Get("/fachbereich/studiengang/semester/group1/hello/:name", http.HandlerFunc(HelloServer))
+	m.Get("/fachbereich/studiengang/semester/group1/add/:message", http.HandlerFunc(AddMSG))
+	m.Get("/fachbereich/studiengang/semester/group1/list/all", http.HandlerFunc(ListAllMSG))
+	//localhost:80/create/acc/fdai5761/Andrej/Miller/32/DM/5
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:degreeCourse/:semester", http.HandlerFunc(CreateAcc))
-	//localhost:8080/acc/search
+
+	//localhost:80/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
-	m.Get("/group1/add/:gesendetVon/:gesendetNach/:message/:gesendeteUhrzeit", http.HandlerFunc(AddGroupMSG))
-	//localhost:8080/group1/search
-	m.Get("/group1/search", http.HandlerFunc(FindGroup))
+	m.Get("/fachbereich/studiengang/semester/group1/add/:gesendetVon/:gesendetNach/:message/:gesendeteUhrzeit", http.HandlerFunc(AddGroupMSG))
+	//localhost:80/fachbereich/studiengang/semester/group1/search
+	m.Get("/fachbereich/studiengang/semester/group1/search", http.HandlerFunc(FindGroup))
 
 	DbInit()
 
-	http.Handle("/group1/", m)
+	http.Handle("/fachbereich/studiengang/semester/group1/", m)
 	http.Handle("/create/", m)
 	http.Handle("/acc/", m)
 
@@ -105,7 +106,7 @@ func DbInit() {
 			fdNummer VARCHAR(256) PRIMARY KEY,
 			vorname VARCHAR(256),
 			nachname VARCHAR(256),
-			age INTEGER NULL,
+			alter INTEGER NULL,
 			studiengang VARCHAR(256) NULL,
 			semester INTEGER NULL
 			);
@@ -119,7 +120,7 @@ func DbInit() {
 			);
 
 		CREATE TABLE chatgroup (
-			chatID INTEGER PRIMARY KEY,
+			groupID INTEGER PRIMARY KEY,
 			groupName VARCHAR(256),
 			anzUser VARCHAR(256) NULL,
 			anzNachrichten INTEGER NULL,
@@ -160,7 +161,7 @@ func Create(sqlStatement string) {
 }
 
 func newAcc(fdNummer string, firstName string, lastName string, age string, degreeCourse string, semester string) {
-	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, vorname, nachname, age, studiengang, semester) values (?, ?, ?, ?, ?, ?)")
+	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, vorname, nachname, alter, studiengang, semester) values (?, ?, ?, ?, ?, ?)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, degreeCourse, semester)
@@ -193,12 +194,10 @@ func insertMSG(message string) {
 	fmt.Println(newID)
 }
 
+//groupMSG In einer Gruppe eine Nachricht in der DB speichern
 func groupMSG(message string) {
-	stmt, snd := mainDB.Prepare("INSERT INTO senden(absender, chatID) values (?, ?)")
-	checkErr(snd)
-
-	stmt, empf := mainDB.Prepare("INSERT INTO empfangen(empfID, chatID) values (?, ?)")
-	checkErr(empf)
+	stmt, chGr := mainDB.Prepare("INSERT INTO chatgroup(groupID) values (?, ?)")
+	checkErr(chGr)
 
 	stmt, nd := mainDB.Prepare("INSERT INTO nachrichten(nachrichtenID, gesendetVon, gesendetNach, message, gesendeteUhrzeit) values (?, ?, ?, ?, ?)")
 	checkErr(nd)
@@ -210,6 +209,7 @@ func groupMSG(message string) {
 	fmt.Println(newID)
 }
 
+//allMSG alle gespeicherten Messages widergeben
 func allMSG(w http.ResponseWriter) {
 	stmt, err := mainDB.Prepare(" SELECT * FROM nachrichten")
 	checkErr(err)
@@ -220,17 +220,7 @@ func allMSG(w http.ResponseWriter) {
 	processRows(w, rows)
 }
 
-func selGroup1(w http.ResponseWriter) {
-	stmt, err := mainDB.Prepare("SELECT vorname message	FROM user senden nachrichten empfangen chatgroup WHERE fdNummer = absender AND chatID = gesendetVon AND gesendetNach = empfID AND chatID = groupID")
-
-	checkErr(err)
-
-	rows, errQuery := stmt.Query()
-	checkErr(errQuery)
-
-	groupRows(w, rows)
-}
-
+//processRows
 func processRows(w http.ResponseWriter, rows *sql.Rows) {
 	var ID int64
 	var message string
@@ -261,6 +251,7 @@ func pRallAcc(w http.ResponseWriter, rows *sql.Rows) {
 	}
 }
 
+//groupRows
 func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
 	var message string
@@ -273,6 +264,7 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	}
 }
 
+//checkErr
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
