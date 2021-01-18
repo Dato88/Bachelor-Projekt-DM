@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <title>Unser GoServer</title>
     <!-- Required meta tags -->
@@ -16,9 +16,37 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <!-- Asynchroner HTTP-Request -->
+    <script>
+      function callAPI() {
+        let form = document.getElementById("formular");
+        alert("Ihre Nachricht ist: " + form.eingabe.value);
+
+        var xhhtp = new XMLHttpRequest();
+
+        xhhtp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            alert(xhhtp.responseText);
+          }
+        };
+        xhhtp.open(
+          "GET",
+          "http://bachelor-community.informatik.hs-fulda.de/group1/hello/:name" +
+            form.eingabe.value,
+          true
+        );
+        xhhtp.send();
+      }
+    </script>
   </head>
   <body>
     <h1>Hallo Welt</h1>
+
+    <form id="formular" onsubmit="callAPI()">
+      <input type="text" id="eingabe" name="eingabe" />
+      <button type="submit" value="los geht's!">Absenden</button>
+    </form>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
