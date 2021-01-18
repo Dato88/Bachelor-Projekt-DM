@@ -12,7 +12,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var addr = ":8080"
+var addr = ":80"
 var staticDir = "./static"
 
 var resetDB = true
@@ -21,12 +21,12 @@ const dbFile = "serverNachrichten.db"
 
 var mainDB *sql.DB
 
-//HelloServer URL zum testen => localhost:8080/group1/hello/andrej
+//HelloServer URL zum testen => localhost:80/group1/hello/andrej
 func HelloServer(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Server ist Online, "+req.URL.Query().Get(":name")+"!\n")
 }
 
-//CreateAcc erstellt einen neuen Account
+//CreateAcc erstellt einen neuen Account mit den nötigen Parameter
 func CreateAcc(w http.ResponseWriter, req *http.Request) {
 	newAcc(req.URL.Query().Get(":fdNummer"),
 		req.URL.Query().Get(":firstName"),
@@ -37,24 +37,25 @@ func CreateAcc(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, req.URL.Query().Get(":firstName")+" hat einen Account erstellt!"+"\n")
 }
 
-//FindAcc alle Accounts Anzeigen lassen
+//FindAcc alle erstellten Accounts Anzeigen lassen
 func FindAcc(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Alle Accounts Anzeigen!"+"\n")
 	allAcc(w)
 }
 
+//FindGroup Gruppe 1 wird Angezeigt
 func FindGroup(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Gruppenchat Anzeigen!"+"\n")
 	selGroup1(w)
 }
 
-//AddMSG um eine Nachricht zu Speichern
+//AddMSG um eine Nachricht in der DB zu Speichern
 func AddMSG(w http.ResponseWriter, req *http.Request) {
 	insertMSG(req.URL.Query().Get(":message"))
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
-//AddGroupMSG eine Nachricht für die Gruppe Speichern
+//AddGroupMSG eine Nachricht für die Gruppe in der DB zu Speichern
 func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 	insertMSG(req.URL.Query().Get(":message"))
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
@@ -74,11 +75,11 @@ func main() {
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:degreeCourse/:semester", http.HandlerFunc(CreateAcc))
 	//localhost:8080/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
-	m.Get("/group1/add/:firstName/:chatID/:gesendetVon/:gesendetNach/:message/:gesendeteUhrzeit/:empfID/:chatID/groupID", http.HandlerFunc(AddGroupMSG))
+	m.Get("/group1/add/:gesendetVon/:gesendetNach/:message/:gesendeteUhrzeit", http.HandlerFunc(AddGroupMSG))
 	//localhost:8080/group1/search
 	m.Get("/group1/search", http.HandlerFunc(FindGroup))
 
-	//DbInit()
+	DbInit()
 
 	http.Handle("/group1/", m)
 	http.Handle("/create/", m)
@@ -102,24 +103,24 @@ func DbInit() {
 			fdNummer VARCHAR(256) PRIMARY KEY,
 			vorname VARCHAR(256),
 			nachname VARCHAR(256),
-			age INTEGER,
-			studiengang VARCHAR(256),
-			semester INTEGER
+			age INTEGER NULL,
+			studiengang VARCHAR(256) NULL,
+			semester INTEGER NULL
 			);
 
 		CREATE TABLE nachrichten (
 			nachrichtID INTEGER PRIMARY KEY AUTOINCREMENT,
-			gesendetVon INTEGER,
+			gesendetVon VARCHAR(256),
 			gesendetNach INTEGER,
-			message VARCHAR(256),
+			message VARCHAR(256) NULL,
 			gesendeteUhrzeit VARCHAR(256)
 			);
 
 		CREATE TABLE chatgroup (
 			chatID INTEGER PRIMARY KEY,
 			groupName VARCHAR(256),
-			anzUser VARCHAR(256),
-			anzNachrichten INTEGER AUTOINCREMENT,
+			anzUser VARCHAR(256) NULL,
+			anzNachrichten INTEGER NULL,
 			empfangenUhrzeit VARCHAR(256)
 			);
 		
@@ -178,7 +179,7 @@ func allAcc(w http.ResponseWriter) {
 	pRallAcc(w, rows)
 }
 
-// insertMSG um eine Nachricht in der DB zu speichern
+// insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
 func insertMSG(message string) {
 	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(message) values (?)")
 	checkErr(err)
