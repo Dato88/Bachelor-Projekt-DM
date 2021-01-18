@@ -13,7 +13,7 @@ import (
 )
 
 var addr = ":80"
-var staticDir = "./static"
+var staticDir = "./HTML"
 
 var resetDB = true
 
