@@ -73,7 +73,7 @@ func ListAllMSG(req *http.Request) {
 
 func main() {
 	m := pat.New()
-	m.Get("/fachbereich/studiengang/:semester/:group/hello/:name", http.HandlerFunc(HelloServer))
+	m.Get("/fachbereich/studiengang/semester/:group/hello/:name", http.HandlerFunc(HelloServer))
 	//m.Get("/fachbereich/studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
 	m.Get("/fachbereich/studiengang/semester/:group/all", http.HandlerFunc(ListAllMSG))
 	//localhost:80/create/acc/fdai5761/Andrej/Miller/32/DM/5
@@ -82,7 +82,7 @@ func main() {
 	//localhost:80/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
 	//URL um eine Nachricht in gewählter Gruppe bzw. zu einer Person Speichern
-	m.Get("/fachbereich/studiengang/:semester/:group/add/:fdNummer/:GroupID/:message/:gesendeteUhrzeit", http.HandlerFunc(AddGroupMSG))
+	m.Get("/fachbereich/studiengang/semester/:group/add/:fdNummer/:GroupID/:message/:gesendeteUhrzeit", http.HandlerFunc(AddGroupMSG))
 	//localhost:80/fachbereich/studiengang/:semester/1/search
 	//m.Get("/fachbereich/studiengang/:semester/:group/search", http.HandlerFunc(ListMSG))
 
