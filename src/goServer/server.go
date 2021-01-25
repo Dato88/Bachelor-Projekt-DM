@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
+
 	"github.com/bmizerany/pat"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -68,17 +68,14 @@ func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 
 func AddGroup(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("Gruppe erstellt!")
-		insertGroup(req.URL.Query().Get(":GroupName"))
-		io.WriteString(w, "Neue Gruppe erstellt: "+req.URL.Query().Get(":GroupName")+"\n")
-<<<<<<< HEAD
-=======
+	insertGroup(req.URL.Query().Get(":GroupName"))
+	io.WriteString(w, "Neue Gruppe erstellt: "+req.URL.Query().Get(":GroupName")+"\n")
 }
 
 //ListAllMSG alle gespeicherten Nachrichten Anzeigen
-func ListAllMSG(req *http.Request) {
-	groupMSG(req.URL.Query().Get(":group"))
->>>>>>> 8bd5875003beefae5ab6e0852c67e9479f643d8d
-}
+// func ListAllMSG(req *http.Request) {
+// 	groupMSG(req.URL.Query().Get(":group"))
+// }
 
 //ListAllMSG alle gespeicherten Nachrichten Anzeigen
 //func ListAllMSG(req *http.Request) {
@@ -89,11 +86,7 @@ func main() {
 	m := pat.New()
 	m.Get("/fachbereich/studiengang/semester/:groupID/hello/:name", http.HandlerFunc(HelloServer))
 	//m.Get("/fachbereich/studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
-<<<<<<< HEAD
 	//m.Get("/fachbereich/studiengang/semester/:groupID/all", http.HandlerFunc(ListAllMSG))
-=======
-	m.Get("/fachbereich/studiengang/semester/:groupID/all", http.HandlerFunc(ListAllMSG))
->>>>>>> 8bd5875003beefae5ab6e0852c67e9479f643d8d
 	//http://bachelor-community.informatik.hs-fulda.de/create/acc/fdai5761/Andrej/Miller/32/DM/5
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:studiengang/:semester", http.HandlerFunc(CreateAcc))
 	//http://bachelor-community.informatik.hs-fulda.de/create/group/Gruppenchat1
@@ -104,21 +97,14 @@ func main() {
 
 	//URL um eine Nachricht in gewählter Gruppe bzw. zu einer Person Speichern
 	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Eine
-<<<<<<< HEAD
-	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:groupID/:message", http.HandlerFunc(AddGroupMSG))
-=======
 	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:GroupID/:message", http.HandlerFunc(AddGroupMSG))
->>>>>>> 8bd5875003beefae5ab6e0852c67e9479f643d8d
 	//localhost:80/fachbereich/studiengang/:semester/1/search
 	//m.Get("/fachbereich/studiengang/:semester/:group/search", http.HandlerFunc(ListMSG))
 
 	DbInit()
 
-<<<<<<< HEAD
 	http.Handle("/fachbereich/studiengang/semester/", m)
-=======
 	http.Handle("/fachbereich/studiengang/semester/group/", m)
->>>>>>> 8bd5875003beefae5ab6e0852c67e9479f643d8d
 	http.Handle("/create/", m)
 	http.Handle("/acc/", m)
 
@@ -137,13 +123,7 @@ func main() {
 func DbInit() {
 	sqlStatement := `
 		CREATE TABLE benutzer (
-			fdNummer VARCHAR(256) PRIMARY KEY,
-			Vorname VARCHAR(256) NOT NULL,
-			Nachname VARCHAR(256) NULL,
-			Alter TINYINT NULL,
-			Studiengang VARCHAR(256) NULL,
-			Semester TINYINT NULL
-			);
+			fdNummer VARCHAR(256) PRIMARY KEY, Vorname VARCHAR(256) NOT NULL, Nachname VARCHAR(256) NULL, Alter TINYINT NULL, Studiengang VARCHAR(256) NULL, Semester TINYINT NULL);
 
 		CREATE TABLE nachrichten (
 			NachrichtID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -204,11 +184,7 @@ func allAcc(w http.ResponseWriter) {
 }
 
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
-<<<<<<< HEAD
 func insertMSG(fdNummer string, GroupID string, message string) {
-=======
-func insertMSG(fdNummer string, GroupID int, message string) {
->>>>>>> 8bd5875003beefae5ab6e0852c67e9479f643d8d
 	//zeit := time.Now()
 	fmt.Println("insertMSG wurde aufgerufen")
 	//fmt.Println(zeit)
@@ -236,14 +212,7 @@ func insertGroup(Gruppenname string) {
 
 //groupMSG alle gespeicherten Messages widergeben
 func groupMSG(w http.ResponseWriter) {
-<<<<<<< HEAD
 	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = 2 AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
-=======
-	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit
-	FROM nachrichten n, chatgroup c, benutzer u
-	WHERE n.GroupID = c.GroupID AND n.GroupID = 2 AND u.fdNummer = n.fdNummer
-	ORDER BY n.gesendeteUhrzeit")
->>>>>>> 8bd5875003beefae5ab6e0852c67e9479f643d8d
 	checkErr(err)
 
 	rows, errQuery := stmt.Query()
