@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-
+	"time"
 	"github.com/bmizerany/pat"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -61,8 +61,7 @@ func FindAcc(w http.ResponseWriter, req *http.Request) {
 func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 	insertMSG(req.URL.Query().Get(":fdNummer"),
 		req.URL.Query().Get(":GroupID"),
-		req.URL.Query().Get(":message"),
-		req.URL.Query().Get(":gesendeteUhrzeit"))
+		req.URL.Query().Get(":message"))
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
@@ -73,7 +72,7 @@ func ListAllMSG(req *http.Request) {
 
 func main() {
 	m := pat.New()
-	m.Get("/fachbereich/studiengang/semester/:group/hello/:name", http.HandlerFunc(HelloServer))
+	m.Get("/fachbereich/studiengang/semester/:groupID/hello/:name", http.HandlerFunc(HelloServer))
 	//m.Get("/fachbereich/studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
 	m.Get("/fachbereich/studiengang/semester/:groupID/all", http.HandlerFunc(ListAllMSG))
 	//localhost:80/create/acc/fdai5761/Andrej/Miller/32/DM/5
@@ -82,7 +81,7 @@ func main() {
 	//localhost:80/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
 	//URL um eine Nachricht in gewählter Gruppe bzw. zu einer Person Speichern
-	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:GroupID/:message/:gesendeteUhrzeit", http.HandlerFunc(AddGroupMSG))
+	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:GroupID/:message", http.HandlerFunc(AddGroupMSG))
 	//localhost:80/fachbereich/studiengang/:semester/1/search
 	//m.Get("/fachbereich/studiengang/:semester/:group/search", http.HandlerFunc(ListMSG))
 
@@ -120,7 +119,7 @@ func DbInit() {
 			fdNummer VARCHAR(256) NOT NULL,
 			GroupID INTEGER NOT NULL,
 			message VARCHAR(256) NOT NULL,
-			gesendeteUhrzeit NOW() NOT NULL
+			gesendeteUhrzeit DATETIME NOT NULL
 			);
 
 		CREATE TABLE chatgroup (
@@ -174,8 +173,9 @@ func allAcc(w http.ResponseWriter) {
 }
 
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
-func insertMSG(fdNummer string, GroupID int, message string, empfangeneUhrzeit string) {
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, ?)")
+func insertMSG(fdNummer string, GroupID int, message string) {
+	zeit := time.Now()
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, zeit)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(message)
