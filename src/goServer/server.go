@@ -195,7 +195,7 @@ func insertMSG(fdNummer string, GroupID string, message string) {
 	zeit := time.Now()
 	fmt.Println("insertMSG wurde aufgerufen")
 	fmt.Println(zeit)
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, gesendeteUhrzeit) values (?, ?, ?, zeit)")
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, gesendeteUhrzeit) values (?, ?, ?, now())")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
