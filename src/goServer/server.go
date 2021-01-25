@@ -123,7 +123,13 @@ func main() {
 func DbInit() {
 	sqlStatement := `
 		CREATE TABLE benutzer (
-			fdNummer VARCHAR(256) PRIMARY KEY, Vorname VARCHAR(256) NOT NULL, Nachname VARCHAR(256) NULL, Alter TINYINT NULL, Studiengang VARCHAR(256) NULL, Semester TINYINT NULL);
+			fdNummer VARCHAR(256) PRIMARY KEY, 
+			Vorname VARCHAR(256) NOT NULL, 
+			Nachname VARCHAR(256) NULL, 
+			Age TINYINT NULL, 
+			Studiengang VARCHAR(256) NULL, 
+			Semester TINYINT NULL
+			);
 
 		CREATE TABLE nachrichten (
 			NachrichtID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -162,7 +168,7 @@ func Create(sqlStatement string) {
 }
 
 func newAcc(fdNummer string, firstName string, lastName string, age string, degreeCourse string, semester string) {
-	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, Vorname, Nachname, Alter, Studiengang, Semester) values (?, ?, ?, ?, ?, ?)")
+	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, Vorname, Nachname, Age, Studiengang, Semester) values (?, ?, ?, ?, ?, ?)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, degreeCourse, semester)
