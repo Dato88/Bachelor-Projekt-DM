@@ -66,6 +66,7 @@ func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
+//AddGroup Gruppe hinzufügen
 func AddGroup(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("Gruppe erstellt!")
 	insertGroup(req.URL.Query().Get(":GroupName"))
@@ -87,25 +88,27 @@ func main() {
 	m.Get("/fachbereich/studiengang/semester/:groupID/hello/:name", http.HandlerFunc(HelloServer))
 	//m.Get("/fachbereich/studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
 	//m.Get("/fachbereich/studiengang/semester/:groupID/all", http.HandlerFunc(ListAllMSG))
+
 	//http://bachelor-community.informatik.hs-fulda.de/create/acc/fdai5761/Andrej/Miller/32/DM/5
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:studiengang/:semester", http.HandlerFunc(CreateAcc))
+
 	//http://bachelor-community.informatik.hs-fulda.de/create/group/Gruppenchat1
 	m.Get("/create/group/:GroupName", http.HandlerFunc(AddGroup))
 
-	//localhost:80/acc/search
+	//http://bachelor-community.informatik.hs-fulda.de/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
 
 	//URL um eine Nachricht in gewählter Gruppe bzw. zu einer Person Speichern
 	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Eine
-	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:GroupID/:message", http.HandlerFunc(AddGroupMSG))
-	//localhost:80/fachbereich/studiengang/:semester/1/search
+	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:groupID/:message", http.HandlerFunc(AddGroupMSG))
+
+	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/:semester/1/search
 	//m.Get("/fachbereich/studiengang/:semester/:group/search", http.HandlerFunc(ListMSG))
 
 	DbInit()
 
 	http.Handle("/fachbereich/studiengang/semester/", m)
 	http.Handle("/fachbereich/studiengang/semester/group/", m)
-	http.Handle("/create/acc/", m)
 	http.Handle("/create/", m)
 	http.Handle("/acc/", m)
 
