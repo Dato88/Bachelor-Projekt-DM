@@ -34,7 +34,7 @@ func CreateAcc(w http.ResponseWriter, req *http.Request) {
 		req.URL.Query().Get(":firstName"),
 		req.URL.Query().Get(":lastName"),
 		req.URL.Query().Get(":age"),
-		req.URL.Query().Get(":degreeCourse"),
+		req.URL.Query().Get(":studiengang"),
 		req.URL.Query().Get(":semester"))
 	io.WriteString(w, req.URL.Query().Get(":firstName")+" hat einen Account erstellt!"+"\n")
 }
