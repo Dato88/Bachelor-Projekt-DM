@@ -175,6 +175,7 @@ func allAcc(w http.ResponseWriter) {
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
 func insertMSG(fdNummer string, GroupID int, message string) {
 	zeit := time.Now()
+	fmt.Println(zeit)
 	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, zeit)")
 	checkErr(err)
 
