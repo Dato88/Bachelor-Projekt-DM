@@ -66,6 +66,12 @@ func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
+func AddGroup(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("Gruppe erstellt!")
+		insertGroup(req.URL.Query().Get(":GroupName"))
+		io.WriteString(w, "Neue Gruppe erstellt: "+req.URL.Query().Get(":GroupName")+"\n")
+}
+
 //ListAllMSG alle gespeicherten Nachrichten Anzeigen
 func ListAllMSG(req *http.Request) {
 	groupMSG(req.URL.Query().Get(":group"))
@@ -76,12 +82,16 @@ func main() {
 	m.Get("/fachbereich/studiengang/semester/:groupID/hello/:name", http.HandlerFunc(HelloServer))
 	//m.Get("/fachbereich/studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
 	m.Get("/fachbereich/studiengang/semester/:groupID/all", http.HandlerFunc(ListAllMSG))
-	//localhost:80/create/acc/fdai5761/Andrej/Miller/32/DM/5
+	//http://bachelor-community.informatik.hs-fulda.de/create/acc/fdai5761/Andrej/Miller/32/DM/5
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:studiengang/:semester", http.HandlerFunc(CreateAcc))
+	//http://bachelor-community.informatik.hs-fulda.de/create/group/Gruppenchat1
+	m.Get("/create/group/:GroupName", http.HandlerFunc(AddGroup))
 
 	//localhost:80/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
+
 	//URL um eine Nachricht in gewählter Gruppe bzw. zu einer Person Speichern
+	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Eine
 	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:GroupID/:message", http.HandlerFunc(AddGroupMSG))
 	//localhost:80/fachbereich/studiengang/:semester/1/search
 	//m.Get("/fachbereich/studiengang/:semester/:group/search", http.HandlerFunc(ListMSG))
@@ -181,7 +191,19 @@ func insertMSG(fdNummer string, GroupID int, message string) {
 	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, zeit)")
 	checkErr(err)
 
-	result, errExec := stmt.Exec(message)
+	result, errExec := stmt.Exec(fdNummer, GroupID, message)
+	checkErr(errExec)
+
+	newID, _ := result.LastInsertId()
+	fmt.Println(newID)
+}
+
+func insertGroup(Gruppenname string) {
+	fmt.Println("insertGroup wurde aufgerufen")
+	stmt, err := mainDB.Prepare("INSERT INTO chatgroup(GroupName) values (?)")
+	checkErr(err)
+
+	result, errExec := stmt.Exec(Gruppenname)
 	checkErr(errExec)
 
 	newID, _ := result.LastInsertId()
