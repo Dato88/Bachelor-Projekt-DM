@@ -30,12 +30,14 @@ func HelloServer(w http.ResponseWriter, req *http.Request) {
 
 //CreateAcc erstellt einen neuen Account mit den nötigen Parameter
 func CreateAcc(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("CreateAcc wurde aufgerufen")
 	newAcc(req.URL.Query().Get(":fdNummer"),
 		req.URL.Query().Get(":firstName"),
 		req.URL.Query().Get(":lastName"),
 		req.URL.Query().Get(":age"),
 		req.URL.Query().Get(":studiengang"),
 		req.URL.Query().Get(":semester"))
+	fmt.Println("CreateAcc Checkpoint 1")
 	io.WriteString(w, req.URL.Query().Get(":firstName")+" hat einen Account erstellt!"+"\n")
 }
 
@@ -49,12 +51,6 @@ func FindAcc(w http.ResponseWriter, req *http.Request) {
 //func FindGroup(w http.ResponseWriter, req *http.Request) {
 //	io.WriteString(w, "Gruppenchat Anzeigen!"+"\n")
 //	selGroup1(w)
-//}
-
-//AddMSG um eine Nachricht in der DB zu Speichern
-//func AddMSG(w http.ResponseWriter, req *http.Request) {
-//	insertMSG(req.URL.Query().Get(":message"))
-//	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 //}
 
 //AddGroupMSG eine Nachricht für die Gruppe in der DB zu Speichern
