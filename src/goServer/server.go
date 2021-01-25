@@ -46,44 +46,45 @@ func FindAcc(w http.ResponseWriter, req *http.Request) {
 }
 
 //FindGroup Gruppe 1 wird Angezeigt
-func FindGroup(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "Gruppenchat Anzeigen!"+"\n")
-	selGroup1(w)
-}
+//func FindGroup(w http.ResponseWriter, req *http.Request) {
+//	io.WriteString(w, "Gruppenchat Anzeigen!"+"\n")
+//	selGroup1(w)
+//}
 
 //AddMSG um eine Nachricht in der DB zu Speichern
-func AddMSG(w http.ResponseWriter, req *http.Request) {
-	insertMSG(req.URL.Query().Get(":message"))
-	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
-}
+//func AddMSG(w http.ResponseWriter, req *http.Request) {
+//	insertMSG(req.URL.Query().Get(":message"))
+//	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
+//}
 
 //AddGroupMSG eine Nachricht für die Gruppe in der DB zu Speichern
 func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 	insertMSG(req.URL.Query().Get(":fdNummer"),
-		req.URL.Query().Get(":GroupID")
-		req.URL.Query().Get(":message"))
+		req.URL.Query().Get(":GroupID"),
+		req.URL.Query().Get(":message"),
+		req.URL.Query().Get(":gesendeteUhrzeit"))
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
 //ListAllMSG alle gespeicherten Nachrichten Anzeigen
-func ListAllMSG(w http.ResponseWriter, req *http.Request) {
-	allMSG(w)
+func ListAllMSG(req *http.Request) {
+	groupMSG(req.URL.Query().Get(":group"))
 }
 
 func main() {
 	m := pat.New()
-	m.Get("/:fachbereich/:studiengang/:semester/:group/hello/:name", http.HandlerFunc(HelloServer))
-	m.Get("/:fachbereich/:studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
-	m.Get("/:fachbereich/:studiengang/:semester/group/list/all", http.HandlerFunc(ListAllMSG))
+	m.Get("/fachbereich/studiengang/:semester/:group/hello/:name", http.HandlerFunc(HelloServer))
+	//m.Get("/fachbereich/studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
+	m.Get("/fachbereich/studiengang/semester/:group/all", http.HandlerFunc(ListAllMSG))
 	//localhost:80/create/acc/fdai5761/Andrej/Miller/32/DM/5
-	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:degreeCourse/:semester", http.HandlerFunc(CreateAcc))
+	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:studiengang/:semester", http.HandlerFunc(CreateAcc))
 
 	//localhost:80/acc/search
 	m.Get("/acc/search", http.HandlerFunc(FindAcc))
 	//URL um eine Nachricht in gewählter Gruppe bzw. zu einer Person Speichern
-	m.Get("/:fachbereich/:studiengang/:semester/:group/add/:fdNummer/:GroupID/:message", http.HandlerFunc(AddGroupMSG))
+	m.Get("/fachbereich/studiengang/:semester/:group/add/:fdNummer/:GroupID/:message/:gesendeteUhrzeit", http.HandlerFunc(AddGroupMSG))
 	//localhost:80/fachbereich/studiengang/:semester/1/search
-	m.Get("/:fachbereich/:studiengang/:semester/:group/search", http.HandlerFunc(FindGroup))
+	//m.Get("/fachbereich/studiengang/:semester/:group/search", http.HandlerFunc(ListMSG))
 
 	DbInit()
 
@@ -119,13 +120,12 @@ func DbInit() {
 			fdNummer VARCHAR(256) NOT NULL,
 			GroupID INTEGER NOT NULL,
 			message VARCHAR(256) NOT NULL,
-			gesendeteUhrzeit VARCHAR(256)
+			gesendeteUhrzeit NOW() NOT NULL
 			);
 
 		CREATE TABLE chatgroup (
 			GroupID INTEGER PRIMARY KEY,
-			GroupName VARCHAR(256) NOT NULL,
-			empfangenUhrzeit VARCHAR(256)
+			GroupName VARCHAR(256) NOT NULL
 			);
 	`
 
@@ -174,8 +174,8 @@ func allAcc(w http.ResponseWriter) {
 }
 
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
-func insertMSG(fdNummer string, GroupID int,message string) {
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message) values (?, ?, ?)")
+func insertMSG(fdNummer string, GroupID int, message string, empfangeneUhrzeit string) {
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, ?)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(message)
@@ -185,9 +185,12 @@ func insertMSG(fdNummer string, GroupID int,message string) {
 	fmt.Println(newID)
 }
 
-//allMSG alle gespeicherten Messages widergeben
-func allMSG(w http.ResponseWriter) {
-	stmt, err := mainDB.Prepare(" SELECT * FROM nachrichten")
+//groupMSG alle gespeicherten Messages widergeben
+func groupMSG(w http.ResponseWriter) {
+	stmt, err := mainDB.Prepare("SELECT DISTINCT u.vorname, c.groupName, n.message, n.gesendeteUhrzeit
+	FROM nachrichten n, chatgroup c, user1 u
+	WHERE n.groupID = c.groupID AND n.groupID = 2 AND u.fdNummer = n.fdNummer
+	ORDER BY n.gesendeteUhrzeit")
 	checkErr(err)
 
 	rows, errQuery := stmt.Query()
