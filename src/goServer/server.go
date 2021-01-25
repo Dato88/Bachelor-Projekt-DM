@@ -59,6 +59,7 @@ func FindAcc(w http.ResponseWriter, req *http.Request) {
 
 //AddGroupMSG eine Nachricht für die Gruppe in der DB zu Speichern
 func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("AddGroupMSG wurde aufgerufen")
 	insertMSG(req.URL.Query().Get(":fdNummer"),
 		req.URL.Query().Get(":GroupID"),
 		req.URL.Query().Get(":message"))
@@ -175,6 +176,7 @@ func allAcc(w http.ResponseWriter) {
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
 func insertMSG(fdNummer string, GroupID int, message string) {
 	zeit := time.Now()
+	fmt.Println("insertMSG wurde aufgerufen")
 	fmt.Println(zeit)
 	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, zeit)")
 	checkErr(err)
