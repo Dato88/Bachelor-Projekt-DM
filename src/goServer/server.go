@@ -171,11 +171,11 @@ func Create(sqlStatement string) {
 	}
 }
 
-func newAcc(fdNummer string, firstName string, lastName string, age string, degreeCourse string, semester string) {
+func newAcc(fdNummer string, firstName string, lastName string, age string, studiengang string, semester string) {
 	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, Vorname, Nachname, Age, Studiengang, Semester) values (?, ?, ?, ?, ?, ?)")
 	checkErr(err)
 
-	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, degreeCourse, semester)
+	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, studiengang, semester)
 	checkErr(errExec)
 
 	newID, _ := result.LastInsertId()
