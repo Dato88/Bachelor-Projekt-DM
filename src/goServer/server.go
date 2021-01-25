@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/bmizerany/pat"
 	_ "github.com/mattn/go-sqlite3"
@@ -191,10 +192,10 @@ func allAcc(w http.ResponseWriter) {
 
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
 func insertMSG(fdNummer string, GroupID string, message string) {
-	//zeit := time.Now()
+	zeit := time.Now()
 	fmt.Println("insertMSG wurde aufgerufen")
-	//fmt.Println(zeit)
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, zeit)")
+	fmt.Println(zeit)
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, gesendeteUhrzeit) values (?, ?, ?, zeit)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
