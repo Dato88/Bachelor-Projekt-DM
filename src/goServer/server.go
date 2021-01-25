@@ -61,7 +61,7 @@ func FindAcc(w http.ResponseWriter, req *http.Request) {
 func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("AddGroupMSG wurde aufgerufen")
 	insertMSG(req.URL.Query().Get(":fdNummer"),
-		req.URL.Query().Get(":GroupID"),
+		req.URL.Query().Get(":groupID"),
 		req.URL.Query().Get(":message"))
 	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
@@ -116,7 +116,7 @@ func main() {
 //DbInit initialisiert die Datenbank
 func DbInit() {
 	sqlStatement := `
-		CREATE TABLE user (
+		CREATE TABLE benutzer (
 			fdNummer VARCHAR(256) PRIMARY KEY,
 			Vorname VARCHAR(256) NOT NULL,
 			Nachname VARCHAR(256) NULL,
@@ -162,7 +162,7 @@ func Create(sqlStatement string) {
 }
 
 func newAcc(fdNummer string, firstName string, lastName string, age string, degreeCourse string, semester string) {
-	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, vorname, nachname, alter, studiengang, semester) values (?, ?, ?, ?, ?, ?)")
+	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, Vorname, Nachname, Alter, Studiengang, Semester) values (?, ?, ?, ?, ?, ?)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, degreeCourse, semester)
@@ -185,9 +185,9 @@ func allAcc(w http.ResponseWriter) {
 
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
 func insertMSG(fdNummer string, GroupID int, message string) {
-	zeit := time.Now()
+	//zeit := time.Now()
 	fmt.Println("insertMSG wurde aufgerufen")
-	fmt.Println(zeit)
+	//fmt.Println(zeit)
 	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, empfangeneUhrzeit) values (?, ?, ?, zeit)")
 	checkErr(err)
 
@@ -212,9 +212,9 @@ func insertGroup(Gruppenname string) {
 
 //groupMSG alle gespeicherten Messages widergeben
 func groupMSG(w http.ResponseWriter) {
-	stmt, err := mainDB.Prepare("SELECT DISTINCT u.vorname, c.groupName, n.message, n.gesendeteUhrzeit
-	FROM nachrichten n, chatgroup c, user1 u
-	WHERE n.groupID = c.groupID AND n.groupID = 2 AND u.fdNummer = n.fdNummer
+	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit
+	FROM nachrichten n, chatgroup c, benutzer u
+	WHERE n.GroupID = c.GroupID AND n.GroupID = 2 AND u.fdNummer = n.fdNummer
 	ORDER BY n.gesendeteUhrzeit")
 	checkErr(err)
 
