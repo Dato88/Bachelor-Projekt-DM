@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/bmizerany/pat"
 	_ "github.com/mattn/go-sqlite3"
@@ -137,7 +136,7 @@ func DbInit() {
 			fdNummer VARCHAR(256) NOT NULL,
 			GroupID INTEGER NOT NULL,
 			message VARCHAR(256) NOT NULL,
-			gesendeteUhrzeit DATETIME NOT NULL
+			gesendeteUhrzeit DEFAULT CURRENT_TIMESTAMP
 			);
 
 		CREATE TABLE chatgroup (
@@ -192,10 +191,9 @@ func allAcc(w http.ResponseWriter) {
 
 // insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
 func insertMSG(fdNummer string, GroupID string, message string) {
-	zeit := time.Now()
+
 	fmt.Println("insertMSG wurde aufgerufen")
-	fmt.Println(zeit)
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message, gesendeteUhrzeit) values (?, ?, ?, now())")
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message) values (?, ?, ?")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
