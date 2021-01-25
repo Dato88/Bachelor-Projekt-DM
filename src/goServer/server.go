@@ -168,7 +168,7 @@ func Create(sqlStatement string) {
 }
 
 func newAcc(fdNummer string, firstName string, lastName string, age string, studiengang string, semester string) {
-	stmt, err := mainDB.Prepare("INSERT INTO user(fdNummer, Vorname, Nachname, Age, Studiengang, Semester) values (?, ?, ?, ?, ?, ?)")
+	stmt, err := mainDB.Prepare("INSERT INTO benutzer(fdNummer, Vorname, Nachname, Age, Studiengang, Semester) values (?, ?, ?, ?, ?, ?)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, studiengang, semester)
@@ -180,7 +180,7 @@ func newAcc(fdNummer string, firstName string, lastName string, age string, stud
 
 //allAcc Datenbank für die Suche Auswählen
 func allAcc(w http.ResponseWriter) {
-	stmt, err := mainDB.Prepare("SELECT * FROM user")
+	stmt, err := mainDB.Prepare("SELECT * FROM benutzer")
 	checkErr(err)
 
 	rows, errQuery := stmt.Query()
