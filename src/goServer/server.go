@@ -105,6 +105,7 @@ func main() {
 
 	http.Handle("/fachbereich/studiengang/semester/", m)
 	http.Handle("/fachbereich/studiengang/semester/group/", m)
+	http.Handle("/create/acc/", m)
 	http.Handle("/create/", m)
 	http.Handle("/acc/", m)
 
