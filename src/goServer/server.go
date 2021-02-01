@@ -76,8 +76,7 @@ func AddGroup(w http.ResponseWriter, req *http.Request) {
 
 //ListMSG alle gespeicherten Nachrichten einer Gruppe Anzeigen
 func ListMSG(w http.ResponseWriter, req *http.Request) {
-	groupMSG(w,
-		req.URL.Query().Get(":gruMSG"))
+	groupMSG(w)
 	io.WriteString(w, "Neue Gruppe erstellt: "+req.URL.Query().Get(":group")+"\n")
 }
 
@@ -101,8 +100,8 @@ func main() {
 	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Eine+ganze%20nachricht%20Neu
 	m.Get("/fachbereich/studiengang/semester/add/:fdNummer/:groupID/:message", http.HandlerFunc(AddGroupMSG))
 
-	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1
-	m.Get("/fachbereich/studiengang/semester/search/:gruMSG", http.HandlerFunc(ListMSG))
+	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/gruMSG
+	m.Get("/fachbereich/studiengang/semester/search/gruMSG", http.HandlerFunc(ListMSG))
 
 	DbInit()
 
@@ -219,8 +218,8 @@ func insertGroup(Gruppenname string) {
 }
 
 //groupMSG alle gespeicherten Messages widergeben
-func groupMSG(w http.ResponseWriter, groupMSG string) {
-	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit values (groupMSG)")
+func groupMSG(w http.ResponseWriter) {
+	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = 1 AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
 	checkErr(err)
 
 	rows, errQuery := stmt.Query()
