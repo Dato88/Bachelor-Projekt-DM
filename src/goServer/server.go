@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"text/template"
 
 	"github.com/bmizerany/pat"
 	_ "github.com/mattn/go-sqlite3"
@@ -20,7 +21,7 @@ var staticDir = "./HTML"
 var resetDB = true
 
 type Account struct {
-	fdNummer    string
+	FdNummer    string
 	Vorname     string
 	Nachname    string
 	Age         int8
@@ -28,14 +29,19 @@ type Account struct {
 	Semester    int8
 }
 
-//Nachrichten erstellt eine Struktur für die Nachrichten
-type Nachrichten struct {
+//NachrichtStr hier wird der Inhalt und der Vorname der Nachrichten gespeichert
+type NachrichtStr struct {
 	Vorname   string
 	Nachricht string
 }
 
-//NachrichtenArray hier werden die Nachrichten der Reihe nach gespeichert
-type NachrichtenArray []Nachrichten
+//NachrichtenArray hier wird der passende Array für die Nachrichten gespeichert
+// type NachrichtenArray []struct {
+// 	Inhalt string
+// 	//Vornamen    []string
+// 	//Nachrichten []string
+// }
+type NachrichtenArray []NachrichtStr
 
 type Chatgroup struct {
 	GroupID   int64
@@ -286,15 +292,23 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var nrtArray NachrichtenArray
 
 	for rows.Next() {
-		var nrt Nachrichten
-		nrt.Vorname = string(vorname)
-		nrt.Nachricht = string(message)
 
 		err := rows.Scan(&vorname, &message)
 		checkErr(err)
+
+		var nrt NachrichtStr
+		nrt.Vorname = string(vorname)
+		nrt.Nachricht = string(message)
 		nrtArray = append(nrtArray, nrt)
 
 		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+	}
+
+	parsedTemplate, _ := template.ParseFiles("HTML/index.html")
+	err := parsedTemplate.Execute(w, nrtArray)
+	if err != nil {
+		log.Println("Fehler beim Ausführen der Template :", err)
+		return
 	}
 
 }
