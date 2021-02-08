@@ -19,6 +19,29 @@ var staticDir = "./HTML"
 
 var resetDB = true
 
+type Account struct {
+	fdNummer    string
+	Vorname     string
+	Nachname    string
+	Age         int8
+	Studiengang string
+	Semester    int8
+}
+
+//Nachrichten erstellt eine Struktur für die Nachrichten
+type Nachrichten struct {
+	Vorname   string
+	Nachricht string
+}
+
+//NachrichtenArray hier werden die Nachrichten der Reihe nach gespeichert
+type NachrichtenArray []Nachrichten
+
+type Chatgroup struct {
+	GroupID   int64
+	GroupName string
+}
+
 const dbFile = "serverNachrichten.db"
 
 var mainDB *sql.DB
@@ -46,12 +69,6 @@ func FindAcc(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Alle Accounts Anzeigen!"+"\n")
 	allAcc(w)
 }
-
-//FindGroup Gruppe 1 wird Angezeigt
-//func FindGroup(w http.ResponseWriter, req *http.Request) {
-//	io.WriteString(w, "Gruppenchat Anzeigen!"+"\n")
-//	selGroup1(w)
-//}
 
 //AddGroupMSG eine Nachricht für die Gruppe in der DB zu Speichern
 func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
@@ -126,9 +143,9 @@ func DbInit() {
 		CREATE TABLE benutzer (
 			fdNummer VARCHAR(256) PRIMARY KEY, 
 			Vorname VARCHAR(256) NOT NULL, 
-			Nachname VARCHAR(256) NULL, 
-			Age TINYINT NULL, 
-			Studiengang VARCHAR(256) NULL, 
+			Nachname VARCHAR(256) NULL,
+			Age TINYINT NULL,
+			Studiengang VARCHAR(256) NULL,
 			Semester TINYINT NULL
 			);
 
@@ -266,13 +283,20 @@ func pRallAcc(w http.ResponseWriter, rows *sql.Rows) {
 func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
 	var message string
+	var nrtArray NachrichtenArray
 
 	for rows.Next() {
+		var nrt Nachrichten
+		nrt.Vorname = string(vorname)
+		nrt.Nachricht = string(message)
+
 		err := rows.Scan(&vorname, &message)
 		checkErr(err)
+		nrtArray = append(nrtArray, nrt)
 
 		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
+
 }
 
 //checkErr
