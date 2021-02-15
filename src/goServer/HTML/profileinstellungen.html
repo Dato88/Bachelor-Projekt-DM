@@ -7,16 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
-  <title>chat@hs-fulda</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>chat@hs-fulda profileinstellungen</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
   <link href="css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
 
   <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -65,19 +64,44 @@
       </nav>
 
       <div class="container-fluid">
-       <!--  <h1 class="mt-4"></h1> -->
-       <img src="images/schriftzug.png">
-        <p>Willkommen im Bachelor-Projekt "chat@hs-fulda". Hier kannst du dich einloggen.&nbsp; &nbsp;</p>
-		  <form>
-          <div class="form-group col-xl-2">
-            <label for="exampleInputEmail1">fd-Nummer</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="hier fd-Nummer eintragen">
-            </div>
-          <div class="form-group col-xl-2">
-            <label for="exampleInputPassword1">Passwort</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Passwort">
+        <h1 class="mt-4">Profileinstellungen</h1>
+        <p>Hier kannst du Angaben zu deinem Profil&nbsp; ändern.</p>
+		  
+		<!-- Profil ändern -->
+		<div class="form-group col-xl-2"><img src="https://images-ext-2.discordapp.net/external/NcspNY_oT6XLTPAF2PxpFkG_ASQcfYP8ZZKFHosn7tg/https/cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png?width=676&height=676" height="150" alt="Profilbild"/></div>
+        <form>
+		  <div class="form-group col-xl-2">
+            <label for="InputVorname">Vorname</label>
+            <input type="text" class="form-control" id="InputVorname" placeholder="Vorname">
           </div>
-          <button type="submit" class="btn btn-primary" >Einloggen</button>
+		  <div class="form-group col-xl-2">
+            <label for="InputNachname">Nachname</label>
+            <input type="text" class="form-control" id="InputNachname" placeholder="Nachname">
+          </div>
+          <div class="form-group col-xl-2">
+            <label for="exampleInputEmail1">E-Mail</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="E-Mail">
+          </div>
+          <div class="form-group col-xl-2">
+            <label for="InputVorname">fd-Nummer</label>
+            <input type="text" class="form-control" id="Inputfd-Nummer" placeholder="fd-Nummer">
+          </div>
+
+          <div class="form-group col-xl-2">
+            <label for="InputVorname">Studiengang</label>
+            <input type="text" class="form-control" id="InputStudiengang" placeholder="Studiengang">
+          </div>
+
+          <div class="form-group col-xl-2">
+            <label for="InputVorname">Alter</label>
+            <input type="text" class="form-control" id="InputAlter" placeholder="Alter">
+          </div>
+
+          <div class="form-group col-xl-2">
+            <label for="InputVorname">Semester</label>
+            <input type="text" class="form-control" id="InputSemester" placeholder="Semester">
+          </div>
+		  <button type="submit" class="btn btn-primary">Ändern</button>
         </form>
       </div>
     </div>
@@ -88,9 +112,10 @@
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Menu Toggle Script -->
+  <script src="js/popper.min.js"></script>
+  <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+<script src="js/bootstrap-4.4.1.js"></script>
+<!-- Menu Toggle Script -->
   <script>
     $("#menu-toggle").click(function(e) {
       e.preventDefault();

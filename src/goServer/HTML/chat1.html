@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="de">
 
 <head>
 
@@ -7,16 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
-  <title>chat@hs-fulda</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>chat@hs-fulda profil</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
   <link href="css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
 
   <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -40,10 +40,9 @@
             <a class="dropdown-item" href="#">Seperated Link</a> </div>
 			-->
 		  </div>
-        <a href="profil.html" class="list-group-item list-group-item-action bg-light">Profil</a>
-        <a href="index.html" class="list-group-item list-group-item-action bg-light">Logout</a>
- 
 		</div>
+        <a href="profil.html" class="list-group-item list-group-item-action bg-light">Profil</a>
+		<a href="index.html" class="list-group-item list-group-item-action bg-light">Logout</a>
 		</div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -65,38 +64,58 @@
       </nav>
 
       <div class="container-fluid">
-       <!--  <h1 class="mt-4"></h1> -->
-       <img src="images/schriftzug.png">
-        <p>Willkommen im Bachelor-Projekt "chat@hs-fulda". Hier kannst du dich einloggen.&nbsp; &nbsp;</p>
-		  <form>
-          <div class="form-group col-xl-2">
-            <label for="exampleInputEmail1">fd-Nummer</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="hier fd-Nummer eintragen">
-            </div>
-          <div class="form-group col-xl-2">
-            <label for="exampleInputPassword1">Passwort</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Passwort">
-          </div>
-          <button type="submit" class="btn btn-primary" >Einloggen</button>
-        </form>
+        <h1 class="mt-4">Chat 1</h1>
+	    <p>Hier stehen Inhalte des Chats.</p>
+		<div>		
+			<div class="container-chat">
+  				<img src="https://cdn.pixabay.com/photo/2013/07/13/10/00/face-156459_960_720.png" alt="Avatar">
+  				<p>Hey, hast du die Aufgabe 5 schon erledigt?</p>
+  				<span class="time-right">11:00</span>
+			</div>
+
+			<div class="container-chat">
+			  	<img src="https://cdn.pixabay.com/photo/2016/04/01/10/42/cranium-1299985_960_720.png" alt="Avatar" class="right">
+			  	<p align="right">Hey! Ne leider nicht. Wollen wir sie zusammen machen?</p>
+			  	<span class="time-left">11:01</span>
+			</div>
+
+			<div class="container-chat">
+			    <img src="https://cdn.pixabay.com/photo/2013/07/13/10/00/face-156459_960_720.png" alt="Avatar">
+			    <p>Ja klar! Passt dir 13 Uhr?</p>
+			    <span class="time-right">11:02</span>
+			</div>
+
+		  <div class="container-chat">
+			    <img src="https://cdn.pixabay.com/photo/2016/04/01/10/42/cranium-1299985_960_720.png" alt="Avatar" class="right">
+			    <p align="right">Passt super, bis dann!</p>
+			  <span class="time-left">11:05</span>
+		  </div>
+			
+			
+    	<form name="message" action="">
+			<textarea name="Texteingabe" placeholder="Hier Text eingeben..." wrap="virtual"></textarea>
+        	<input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+    	</form>
+		</div>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
 
   </div>
   <!-- /#wrapper -->
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+<script src="js/bootstrap-4.4.1.js"></script>
+<!-- Menu Toggle Script -->
+<script>
+  $("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
+</script>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Menu Toggle Script -->
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-  </script>
 
 </body>
 
