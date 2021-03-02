@@ -175,7 +175,7 @@ func processRows(w http.ResponseWriter, rows *sql.Rows) {
 	}
 
 	//parsedTemplate: damit hole ich mir aus dem Ordner templates die HTML
-	parsedTemplate, _ := template.ParseFiles("templates/index.html")
+	parsedTemplate, _ := template.ParseFiles("templates2/index.html")
 	//hiermit übergebe ich der template die Datenstruktur chat
 	err := parsedTemplate.Execute(w, chat)
 
