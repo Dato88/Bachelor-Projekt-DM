@@ -16,7 +16,7 @@ import (
 var addr = ":80"
 
 //Zugriff auf den HTML Ordner
-var staticDir = "./HTML"
+var staticDir = "./templates"
 
 var resetDB = true
 
