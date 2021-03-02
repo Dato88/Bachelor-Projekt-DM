@@ -29,19 +29,18 @@ type Account struct {
 	Semester    int8
 }
 
-//NachrichtStr hier wird der Inhalt und der Vorname der Nachrichten gespeichert
-type NachrichtStr struct {
-	Vorname   string
-	Nachricht string
+//Message hier wird der Inhalt und der Vorname der Nachrichten gespeichert
+type Message struct {
+	//Vorname   string
+	Content string
 }
 
-//NachrichtenArray hier wird der passende Array für die Nachrichten gespeichert
-// type NachrichtenArray []struct {
-// 	Inhalt string
-// 	//Vornamen    []string
-// 	//Nachrichten []string
-// }
-type NachrichtenArray []NachrichtStr
+//Chat hier wird der passende Array für die Nachrichten gespeichert
+type Chat struct {
+	//NachrichtStr []NachrichtStr
+	UserName string
+	Messages []Message
+}
 
 type Chatgroup struct {
 	GroupID   int64
@@ -289,23 +288,29 @@ func pRallAcc(w http.ResponseWriter, rows *sql.Rows) {
 func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
 	var message string
-	var nrtArray NachrichtenArray
+
+	chat := Chat{
+		//NachrichtStr: []NachrichtStr,
+		UserName: "Name",
+		Messages: []Message{},
+	}
 
 	for rows.Next() {
 
 		err := rows.Scan(&vorname, &message)
 		checkErr(err)
 
-		var nrt NachrichtStr
-		nrt.Vorname = string(vorname)
-		nrt.Nachricht = string(message)
-		nrtArray = append(nrtArray, nrt)
+		// var nrt NachrichtStr
+		// nrt.Vorname = string(vorname)
+		// nrt.Nachricht = string(message)
+		chat.Messages = append(chat.Messages, Message{Content: vorname})
+		//nrtArray.NachrichtStr = append(nrtArray.NachrichtStr, NachrichtStr{Nachricht: message})
 
-		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		//fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
 
 	parsedTemplate, _ := template.ParseFiles("HTML/index.html")
-	err := parsedTemplate.Execute(w, nrtArray)
+	err := parsedTemplate.Execute(w, chat)
 	if err != nil {
 		log.Println("Fehler beim Ausführen der Template :", err)
 		return
