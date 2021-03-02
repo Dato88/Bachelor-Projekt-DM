@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Liste der Nachrichten</title>
+    </head>
+
+    <body>
+        <!--Nachrichten Feld UserName mit der Selben Datenstruktur wie in der Go Datei-->
+        <h1>Nachrichten von {{.UserName}}</h1>
+        <!--in UserName ist eine Liste Namens "Messages"-->
+            {{with .Messages}}
+            <ol>
+                <!--Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten-->
+                {{range .}}
+                <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
+                    <li>{{.Content}}</li>
+                {{end}}
+            </ol>
+            {{end}}
+
+            <p>Ende der Liste</p>
+    </body>
+</html>
