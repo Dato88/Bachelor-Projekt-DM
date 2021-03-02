@@ -117,6 +117,8 @@
     </div>
     <!-- /#page-content-wrapper -->
 
+    <input name="submitmsg" type="submit"  id="submitmsg" value="Send" onclick="nachrichtSenden()" />
+  
   </div>
   <!-- /#wrapper -->
 <!-- Bootstrap core JavaScript -->
@@ -130,6 +132,11 @@
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
   });
+
+  function nachrichtSenden(){
+    window.location.href = "http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/hallo"
+  }
+
 </script>
 
 
