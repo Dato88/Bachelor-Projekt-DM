@@ -247,7 +247,7 @@ func groupMSG(w http.ResponseWriter, r *http.Request) {
 	rows, errQuery := stmt.Query(srch)
 	checkErr(errQuery)
 
-	processRows(w, rows)
+	groupRows(w, rows)
 }
 
 //processRows Suche der Message Parameter
