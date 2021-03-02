@@ -66,7 +66,23 @@
       <div class="container-fluid">
         <h1 class="mt-4">Chat 1</h1>
 	    <p>Hier stehen Inhalte des Chats.</p>
-		<div>		
+
+      <!--Nachrichten Feld UserName mit der Selben Datenstruktur wie in der Go Datei-->
+      <h1>Nachrichten von {{.UserName}}</h1>
+      <!--in UserName ist eine Liste Namens "Messages"-->
+          {{with .Messages}}
+          <ol>
+              <!--Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten-->
+              {{range .}}
+              <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
+                  <li>{{.Content}}</li>
+              {{end}}
+          </ol>
+          {{end}}
+
+          <p>Ende der Liste</p>
+          
+		<!-- <div>		
 			<div class="container-chat">
   				<img src="https://cdn.pixabay.com/photo/2013/07/13/10/00/face-156459_960_720.png" alt="Avatar">
   				<p>Hey, hast du die Aufgabe 5 schon erledigt?</p>
@@ -95,8 +111,8 @@
     	<form name="message" action="">
 			<textarea name="Texteingabe" placeholder="Hier Text eingeben..." wrap="virtual"></textarea>
         	<input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
-    	</form>
-		</div>
+    	</form> -->
+		<!-- </div> -->
       </div>
     </div>
     <!-- /#page-content-wrapper -->
