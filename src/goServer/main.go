@@ -61,7 +61,7 @@ func main() {
 	m := pat.New()
 	//HTTP Handler für die Dynamishen Seiten
 	m.Get("/api/v1/hello/:name", http.HandlerFunc(HelloServer))
-	//http://bachelor-community.informatik.hs-fulda.de/api/v1/message/add/:message
+	//http://bachelor-community.informatik.hs-fulda.de/api/v1/message/add/Nachricht
 	m.Get("/api/v1/message/add/:message", http.HandlerFunc(AddMessage))
 	m.Get("/api/v1/message/list/id=:msgid", http.HandlerFunc(ListMessage))
 	//http://bachelor-community.informatik.hs-fulda.de/api/v1/message/list/all
