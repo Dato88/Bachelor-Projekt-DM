@@ -116,7 +116,7 @@
       </div>
     </div>
     <!-- /#page-content-wrapper -->
-    
+
     <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
     <input name="submitmsg" type="submit"  id="submitmsg" value="Send" onclick="nachrichtSenden()" />
   
@@ -135,10 +135,6 @@
   });
 
   function nachrichtSenden(){
-    window.location.href = "http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/hallo"
-  }
-
-  function textAnfügen(){
   var text = document.getElementById("texteingabe").value;
   window.location.href = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/' + text;
 }
