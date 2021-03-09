@@ -215,7 +215,7 @@ func allAcc(w http.ResponseWriter) {
 func insertMSG(fdNummer string, GroupID string, message string) {
 
 	fmt.Println("insertMSG wurde aufgerufen")
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message) values (?, ?, ?)")
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, messag) values (?, ?, ?)")
 	checkErr(err)
 	fmt.Println("Message wurde gespeichert!!")
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
