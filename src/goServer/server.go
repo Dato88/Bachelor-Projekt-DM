@@ -248,7 +248,7 @@ func groupMSG(w http.ResponseWriter, r *http.Request) {
 	checkErr(errQuery)
 
 	//groupRows(w, rows)
-	groupRows(w, rows)
+	processRows(w, rows)
 }
 
 //processRows Suche der Message Parameter
