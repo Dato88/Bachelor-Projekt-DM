@@ -243,8 +243,8 @@ func groupMSG(w http.ResponseWriter, r *http.Request) {
 	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
 	checkErr(err)
 
-	rows, errQuery := stmt.Query(srch)
-	//rows, errQuery := stmt.Query()
+	//rows, errQuery := stmt.Query(srch)
+	rows, errQuery := stmt.Query()
 	checkErr(errQuery)
 	//groupRows(w, rows)
 	processRows(w, rows)
