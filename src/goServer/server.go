@@ -239,14 +239,21 @@ func insertGroup(Gruppenname string) {
 
 //groupMSG alle gespeicherten Messages widergeben
 func groupMSG(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Checkpoint1 ")
 	srch := r.URL.Query().Get(":gruMSG")
+	fmt.Println("Checkpoint2 ")
+
 	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
+	fmt.Println("Checkpoint3 ")
+
 	checkErr(err)
+	fmt.Println("Checkpoint4 ")
 
 	rows, errQuery := stmt.Query(srch)
 	//rows, errQuery := stmt.Query()
+	fmt.Println("Checkpoint5 ")
 	checkErr(errQuery)
-
+	fmt.Println("Checkpoint6 ")
 	//groupRows(w, rows)
 	processRows(w, rows)
 }
