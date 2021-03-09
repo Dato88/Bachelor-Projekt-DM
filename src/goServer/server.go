@@ -97,8 +97,8 @@ func AddGroup(w http.ResponseWriter, req *http.Request) {
 
 //ListMSG alle gespeicherten Nachrichten einer Gruppe Anzeigen
 func ListMSG(w http.ResponseWriter, req *http.Request) {
-	//var grMSG := req.URL.Query().Get(":gruMSG")
-	groupMSG(w)
+	var grID = req.URL.Query().Get(":gruMSG")
+	groupMSG(w, grID)
 }
 
 func main() {
@@ -239,14 +239,14 @@ func insertGroup(Gruppenname string) {
 }
 
 //groupMSG alle gespeicherten Messages widergeben
-func groupMSG(w http.ResponseWriter) {
+func groupMSG(w http.ResponseWriter, grgID string) {
 	//srch := r.URL.Query().Get(":gruMSG")
-	//stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
-	stmt, err := mainDB.Prepare("SELECT message FROM nachrichten")
+	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
+	//stmt, err := mainDB.Prepare("SELECT message FROM nachrichten")
 	checkErr(err)
 
-	//rows, errQuery := stmt.Query(srch)
-	rows, errQuery := stmt.Query()
+	rows, errQuery := stmt.Query(grgID)
+	//rows, errQuery := stmt.Query()
 	checkErr(errQuery)
 	//groupRows(w, rows)
 	processRows(w, rows)
