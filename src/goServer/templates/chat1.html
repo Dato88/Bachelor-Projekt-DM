@@ -68,19 +68,19 @@
 	    <p>Hier stehen Inhalte des Chats.</p>
 
       <!--Nachrichten Feld UserName mit der Selben Datenstruktur wie in der Go Datei-->
-      <h1>Nachrichten von {{.UserName}}</h1>
-      <!--in UserName ist eine Liste Namens "Messages"-->
-          {{with .Messages}}
-          <ol>
+      <!-- <h1>Nachrichten von {{.UserName}}</h1> -->
+      <!-- in UserName ist eine Liste Namens "Messages" -->
+          <!-- {{with .Messages}} -->
+          <!-- <ol> -->
               <!--Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten-->
-              {{range .}}
+              <!-- {{range .}} -->
               <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
-                  <li>{{.Content}}</li>
-              {{end}}
-          </ol>
-          {{end}}
+                  <!-- <li>{{.Content}}</li> -->
+              <!-- {{end}} -->
+          <!-- </ol> -->
+          <!-- {{end}} -->
 
-          <p>Ende der Liste</p>
+          <!-- <p>Ende der Liste</p> -->
           
 		<!-- <div>		
 			<div class="container-chat">

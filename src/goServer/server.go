@@ -31,7 +31,7 @@ type Account struct {
 
 //Message hier wird der Inhalt und der Vorname der Nachrichten gespeichert
 type Message struct {
-	//Vorname   string
+	Vorname string
 	Content string
 }
 
@@ -300,9 +300,9 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		err := rows.Scan(&vorname, &message)
 		checkErr(err)
 
-		chat.Messages = append(chat.Messages, Message{Content: message})
+		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
-		//fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
 
 	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
