@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"text/template"
 
 	"github.com/bmizerany/pat"
 	_ "github.com/mattn/go-sqlite3"
@@ -305,12 +304,12 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
 
-	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
-	err := parsedTemplate.Execute(w, chat)
-	if err != nil {
-		log.Println("Fehler beim Ausführen der Template :", err)
-		return
-	}
+	// parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
+	// err := parsedTemplate.Execute(w, chat)
+	// if err != nil {
+	// 	log.Println("Fehler beim Ausführen der Template :", err)
+	// 	return
+	// }
 
 }
 
