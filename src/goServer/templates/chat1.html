@@ -137,7 +137,6 @@
 
   function nachrichtSenden(){
     var text = document.getElementById("texteingabe").value;
-    function nachrichtSenden(){
     const Http = new XMLHttpRequest();
     const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/';
     Http.open("GET", url);
@@ -145,10 +144,8 @@
 
     Http.onreadystatechange = (e) => {
     console.log(Http.responseText);
-    }
-};
-
-  }
+    };
+  };
 
 </script>
 
