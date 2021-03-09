@@ -247,6 +247,7 @@ func groupMSG(w http.ResponseWriter, r *http.Request) {
 	rows, errQuery := stmt.Query()
 	checkErr(errQuery)
 
+	//groupRows(w, rows)
 	groupRows(w, rows)
 }
 
