@@ -97,7 +97,7 @@ func AddGroup(w http.ResponseWriter, req *http.Request) {
 
 //ListMSG alle gespeicherten Nachrichten einer Gruppe Anzeigen
 func ListMSG(w http.ResponseWriter, req *http.Request) {
-	groupMSG(w, req)
+	groupMSG(w)
 }
 
 func main() {
@@ -215,7 +215,7 @@ func allAcc(w http.ResponseWriter) {
 func insertMSG(fdNummer string, GroupID string, message string) {
 
 	fmt.Println("insertMSG wurde aufgerufen")
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, messag) values (?, ?, ?)")
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message) values (?, ?, ?)")
 	checkErr(err)
 	fmt.Println("Message wurde gespeichert!!")
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
@@ -238,7 +238,7 @@ func insertGroup(Gruppenname string) {
 }
 
 //groupMSG alle gespeicherten Messages widergeben
-func groupMSG(w http.ResponseWriter, r *http.Request) {
+func groupMSG(w http.ResponseWriter) {
 	//srch := r.URL.Query().Get(":gruMSG")
 	//stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
 	stmt, err := mainDB.Prepare("SELECT * from nachrichten")
