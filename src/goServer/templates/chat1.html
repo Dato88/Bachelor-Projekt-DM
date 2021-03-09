@@ -125,6 +125,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
+
 <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 <script src="js/bootstrap-4.4.1.js"></script>
 <!-- Menu Toggle Script -->
@@ -134,10 +135,20 @@
     $("#wrapper").toggleClass("toggled");
   });
 
-function nachrichtSenden(){
-  var text = document.getElementById("texteingabe").value;
-  window.location.href = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/' + text;
-}
+  function nachrichtSenden(){
+    var text = document.getElementById("texteingabe").value;
+    function nachrichtSenden(){
+    const Http = new XMLHttpRequest();
+    const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/';
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = (e) => {
+    console.log(Http.responseText);
+    }
+};
+
+  }
 
 </script>
 
