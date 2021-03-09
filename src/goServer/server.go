@@ -80,7 +80,7 @@ func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
 	insertMSG(req.URL.Query().Get(":fdNummer"),
 		req.URL.Query().Get(":groupID"),
 		req.URL.Query().Get(":message"))
-	//io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
+	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
 //AddGroup Gruppe hinzufügen
@@ -245,7 +245,7 @@ func groupMSG(w http.ResponseWriter, grgID string) {
 	stmt, err := mainDB.Prepare("SELECT message FROM nachrichten")
 	checkErr(err)
 
-	rows, errQuery := stmt.Query(grgID)
+	rows, errQuery := stmt.Query()
 	//rows, errQuery := stmt.Query()
 	checkErr(errQuery)
 	//groupRows(w, rows)
