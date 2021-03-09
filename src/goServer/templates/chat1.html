@@ -138,7 +138,7 @@
   function nachrichtSenden(){
     var text = document.getElementById("texteingabe").value;
     const Http = new XMLHttpRequest();
-    const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/';
+    const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
     Http.open("GET", url);
     Http.send();
 
