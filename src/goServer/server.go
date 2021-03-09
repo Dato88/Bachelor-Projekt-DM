@@ -97,6 +97,7 @@ func AddGroup(w http.ResponseWriter, req *http.Request) {
 
 //ListMSG alle gespeicherten Nachrichten einer Gruppe Anzeigen
 func ListMSG(w http.ResponseWriter, req *http.Request) {
+	//var grMSG := req.URL.Query().Get(":gruMSG")
 	groupMSG(w)
 }
 
@@ -241,7 +242,7 @@ func insertGroup(Gruppenname string) {
 func groupMSG(w http.ResponseWriter) {
 	//srch := r.URL.Query().Get(":gruMSG")
 	//stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
-	stmt, err := mainDB.Prepare("SELECT * from nachrichten")
+	stmt, err := mainDB.Prepare("SELECT * FROM nachrichten")
 	checkErr(err)
 
 	//rows, errQuery := stmt.Query(srch)
@@ -257,6 +258,7 @@ func processRows(w http.ResponseWriter, rows *sql.Rows) {
 	//var GroupName string
 	var message string
 	//var gesUhrzeit string
+
 	fmt.Println("Checkpoint1 ")
 	for rows.Next() {
 		fmt.Println("Checkpoint2 ")
