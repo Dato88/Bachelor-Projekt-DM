@@ -289,17 +289,17 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
 	var message string
 
-	chat := Chat{
-		UserName: "Name",
-		Messages: []Message{},
-	}
+	// chat := Chat{
+	// 	UserName: "Name",
+	// 	Messages: []Message{},
+	// }
 
 	for rows.Next() {
 
 		err := rows.Scan(&vorname, &message)
 		checkErr(err)
 
-		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
+		//chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
 		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
