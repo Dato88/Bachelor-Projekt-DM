@@ -188,7 +188,7 @@ func newAcc(fdNummer string, firstName string, lastName string, age string, stud
 	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, studiengang, semester)
 	checkErr(errExec)
 
-	fmt.Println("Neuer Nutzer mit der ID " + fdNummer + " wurde erstellt!!")
+	fmt.Println("Neuer Nutzer mit der Fd-Nummer: " + fdNummer + " wurde erstellt!!")
 	newID, _ := result.LastInsertId()
 	fmt.Println(newID)
 }
@@ -296,9 +296,10 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 
 		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
-		// fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
-		// fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
-		// 	string(vorname), string(GroupName), string(message), string(gesUhrzeit))
+		//das müsste vielleicht Auskommentiert werden
+		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
+			string(vorname), string(groupName), string(message), string(gesUhrzeit))
 	}
 
 	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
