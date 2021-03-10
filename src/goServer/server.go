@@ -227,7 +227,7 @@ func insertMSG(fdNummer string, GroupID string, message string) {
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
 	checkErr(errExec)
 
-	fmt.Println("Message Nummer wurde gespeichert!!")
+	fmt.Println("Message in " + GroupID + " wurde gespeichert!!")
 	newID, _ := result.LastInsertId()
 	fmt.Println(newID)
 }
@@ -308,7 +308,7 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		return
 	}
 
-	fmt.Println("Nachrichten der Gruppe" + groupName + " wurden widergegeben!!")
+	fmt.Println("Nachrichten der Gruppe " + groupName + " wurden widergegeben!!")
 }
 
 //checkErr
