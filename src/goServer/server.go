@@ -242,46 +242,27 @@ func insertGroup(Gruppenname string) {
 
 //groupMSG alle gespeicherten Messages widergeben
 func groupMSG(w http.ResponseWriter, grID string) {
-	//func groupMSG(w http.ResponseWriter) {
-	//srch := r.URL.Query().Get(":gruMSG")
-	//SQL Statement Checken da es mit dem unteren Funktioniert
-	//Das Select Statement muss die selbe Anzahl an Argumenten haben wie sie bei ProzessRows gesucht werden!!!
+	//Das Select Statement muss die selbe Anzahl an Argumenten haben wie sie bei groupRows gesucht werden!!!
 	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
-	//stmt, err := mainDB.Prepare("SELECT message FROM nachrichten")
 	checkErr(err)
 
-	//rows, errQuery := stmt.Query()
 	rows, errQuery := stmt.Query(grID)
-	//rows, errQuery := stmt.Query(srch)
 	checkErr(errQuery)
 	groupRows(w, rows)
-	// processRows(w, rows)
 }
 
 //processRows Suche der Message Parameter
 func processRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
-	var GroupName string
 	var message string
-	var gesUhrzeit string
 
-	fmt.Println("Checkpoint1 ")
 	for rows.Next() {
-		fmt.Println("Checkpoint2 ")
 		//err := rows.Scan(&vorname, &message)
-		err := rows.Scan(&vorname, &GroupName, &message, &gesUhrzeit)
-		fmt.Println("Checkpoint3 ")
+		err := rows.Scan(&vorname, &message)
 		checkErr(err)
-		fmt.Println("Checkpoint4 ")
 
-		//fmt.Fprintf(w, "Nachricht: %s\n", string(message))
-		fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
-			string(vorname), string(GroupName), string(message), string(gesUhrzeit))
-		fmt.Println("Checkpoint5 ")
-
-		//fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
-	fmt.Println("Checkpoint6 ")
 
 }
 
