@@ -243,12 +243,13 @@ func insertGroup(Gruppenname string) {
 func groupMSG(w http.ResponseWriter, grID string) {
 	//func groupMSG(w http.ResponseWriter) {
 	//srch := r.URL.Query().Get(":gruMSG")
-	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
+	//SQL Statement Checken da es mit dem unteren Funktioniert
+	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = 1 AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
 	//stmt, err := mainDB.Prepare("SELECT message FROM nachrichten")
 	checkErr(err)
 
-	//rows, errQuery := stmt.Query()
-	rows, errQuery := stmt.Query(grID)
+	rows, errQuery := stmt.Query()
+	//rows, errQuery := stmt.Query(grID)
 	//rows, errQuery := stmt.Query(srch)
 	checkErr(errQuery)
 	//groupRows(w, rows)
