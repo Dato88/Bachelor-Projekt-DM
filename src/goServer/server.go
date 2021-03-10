@@ -14,11 +14,12 @@ import (
 )
 
 var addr = ":80"
-
-//Zugriff auf den HTML Ordner
 var staticDir = "./templates"
-
 var resetDB = true
+
+const dbFile = "serverNachrichten.db"
+
+var mainDB *sql.DB
 
 type Account struct {
 	FdNummer    string
@@ -46,10 +47,6 @@ type Chatgroup struct {
 	GroupID   int64
 	GroupName string
 }
-
-const dbFile = "serverNachrichten.db"
-
-var mainDB *sql.DB
 
 //HelloServer URL zum testen => localhost:80/fachbereich/studiengang/semester/group1/hello/andrej
 func HelloServer(w http.ResponseWriter, req *http.Request) {
@@ -91,24 +88,17 @@ func AddGroup(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, "Neue Gruppe erstellt: "+req.URL.Query().Get(":GroupName")+"\n")
 }
 
-//ListAllMSG alle gespeicherten Nachrichten Anzeigen
-// func ListAllMSG(req *http.Request) {
-// 	groupMSG(req.URL.Query().Get(":group"))
-// }
-
 //ListMSG alle gespeicherten Nachrichten einer Gruppe Anzeigen
 func ListMSG(w http.ResponseWriter, req *http.Request) {
 	var grID = req.URL.Query().Get(":gruMSG")
 	groupMSG(w, grID)
-	//groupMSG(w)
 }
 
 func main() {
 	m := pat.New()
 	m.Get("/fachbereich/studiengang/semester/:groupID/hello/:name", http.HandlerFunc(HelloServer))
-	//m.Get("/fachbereich/studiengang/:semester/:group/add/:message", http.HandlerFunc(AddMSG))
-	//m.Get("/fachbereich/studiengang/semester/:groupID/all", http.HandlerFunc(ListAllMSG))
 
+	//Ein Account und eine Gruppe muss erstellt werden um die Chatfunktionen testen zu können!!
 	//http://bachelor-community.informatik.hs-fulda.de/create/acc/fdai5761/Andrej/Miller/32/DM/5
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:studiengang/:semester", http.HandlerFunc(CreateAcc))
 
@@ -242,7 +232,7 @@ func insertGroup(Gruppenname string) {
 
 //groupMSG alle gespeicherten Messages widergeben
 func groupMSG(w http.ResponseWriter, grID string) {
-	//Das Select Statement muss die selbe Anzahl an Argumenten haben wie sie bei groupRows gesucht werden!!!
+	//Das Select Statement muss mindestens die selbe Anzahl an Argumenten haben wie sie bei groupRows gesucht werden!!!
 	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
 	checkErr(err)
 
@@ -257,7 +247,6 @@ func processRows(w http.ResponseWriter, rows *sql.Rows) {
 	var message string
 
 	for rows.Next() {
-		//err := rows.Scan(&vorname, &message)
 		err := rows.Scan(&vorname, &message)
 		checkErr(err)
 
@@ -287,7 +276,7 @@ func pRallAcc(w http.ResponseWriter, rows *sql.Rows) {
 //groupRows
 func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
-	var GroupName string
+	var groupName string
 	var message string
 	var gesUhrzeit string
 
@@ -299,20 +288,20 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	for rows.Next() {
 
 		// err := rows.Scan(&vorname, &message)
-		err := rows.Scan(&vorname, &GroupName, &message, &gesUhrzeit)
+		err := rows.Scan(&vorname, &groupName, &message, &gesUhrzeit)
 		checkErr(err)
 
 		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
 		// fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
-		fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
-			string(vorname), string(GroupName), string(message), string(gesUhrzeit))
+		// fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
+		// 	string(vorname), string(GroupName), string(message), string(gesUhrzeit))
 	}
 
 	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
 	err := parsedTemplate.Execute(w, chat)
 	if err != nil {
-		log.Println("Fehler beim Ausführen der Template :", err)
+		log.Println("Fehler beim Ausführen der Template: ", err)
 		return
 	}
 
