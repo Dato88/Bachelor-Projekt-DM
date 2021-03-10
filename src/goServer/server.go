@@ -55,37 +55,36 @@ func HelloServer(w http.ResponseWriter, req *http.Request) {
 
 //CreateAcc erstellt einen neuen Account mit den nötigen Parameter
 func CreateAcc(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("CreateAcc wurde aufgerufen")
+	//fmt.Println("CreateAcc wurde aufgerufen")
 	newAcc(req.URL.Query().Get(":fdNummer"),
 		req.URL.Query().Get(":firstName"),
 		req.URL.Query().Get(":lastName"),
 		req.URL.Query().Get(":age"),
 		req.URL.Query().Get(":studiengang"),
 		req.URL.Query().Get(":semester"))
-	fmt.Println("CreateAcc Checkpoint 1")
-	io.WriteString(w, req.URL.Query().Get(":firstName")+" hat einen Account erstellt!"+"\n")
+	//io.WriteString(w, req.URL.Query().Get(":firstName")+" hat einen Account erstellt!"+"\n")
 }
 
 //FindAcc alle erstellten Accounts Anzeigen lassen mit allen gespeicherten Informationen
 func FindAcc(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "Alle Accounts Anzeigen!"+"\n")
+	//io.WriteString(w, "Alle Accounts Anzeigen!"+"\n")
 	allAcc(w)
 }
 
 //AddGroupMSG eine Nachricht für die Gruppe in der DB zu Speichern
 func AddGroupMSG(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("AddGroupMSG wurde aufgerufen")
+	//fmt.Println("AddGroupMSG wurde aufgerufen")
 	insertMSG(req.URL.Query().Get(":fdNummer"),
 		req.URL.Query().Get(":groupID"),
 		req.URL.Query().Get(":message"))
-	io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
+	//io.WriteString(w, "Nachricht eingesetzt: "+req.URL.Query().Get(":message")+"\n")
 }
 
 //AddGroup Gruppe hinzufügen
 func AddGroup(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("Gruppe erstellt!")
+	//fmt.Println("Gruppe erstellt!")
 	insertGroup(req.URL.Query().Get(":GroupName"))
-	io.WriteString(w, "Neue Gruppe erstellt: "+req.URL.Query().Get(":GroupName")+"\n")
+	//io.WriteString(w, "Neue Gruppe erstellt: "+req.URL.Query().Get(":GroupName")+"\n")
 }
 
 //ListMSG alle gespeicherten Nachrichten einer Gruppe Anzeigen
@@ -176,7 +175,7 @@ func Create(sqlStatement string) {
 	mainDB = db
 
 	if resetDB {
-		fmt.Println("Tabelle wurde erstellt!")
+		fmt.Println("\nTabelle wurde erstellt!")
 		_, err = db.Exec(sqlStatement)
 		checkErr(err)
 	}
@@ -204,33 +203,35 @@ func allAcc(w http.ResponseWriter) {
 	pRallAcc(w, rows)
 }
 
-// insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
-func insertMSG(fdNummer string, GroupID string, message string) {
-
-	fmt.Println("insertMSG wurde aufgerufen")
-	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message) values (?, ?, ?)")
-	checkErr(err)
-	fmt.Println("Message wurde gespeichert!!")
-	result, errExec := stmt.Exec(fdNummer, GroupID, message)
-	checkErr(errExec)
-
-	newID, _ := result.LastInsertId()
-	fmt.Println(newID)
-}
-
 func insertGroup(Gruppenname string) {
-	fmt.Println("insertGroup wurde aufgerufen")
+	//fmt.Println("insertGroup wurde aufgerufen")
 	stmt, err := mainDB.Prepare("INSERT INTO chatgroup(GroupName) values (?)")
 	checkErr(err)
 
 	result, errExec := stmt.Exec(Gruppenname)
 	checkErr(errExec)
 
+	fmt.Println("Gruppe %s wurde erstellt!!", Gruppenname)
 	newID, _ := result.LastInsertId()
 	fmt.Println(newID)
 }
 
-//groupMSG alle gespeicherten Messages widergeben
+// insertMSG Die direkte Funktion um eine Nachricht in der DB zu speichern
+func insertMSG(fdNummer string, GroupID string, message string) {
+
+	//fmt.Println("insertMSG wurde aufgerufen")
+	stmt, err := mainDB.Prepare("INSERT INTO nachrichten(fdNummer, GroupID, message) values (?, ?, ?)")
+	checkErr(err)
+
+	result, errExec := stmt.Exec(fdNummer, GroupID, message)
+	checkErr(errExec)
+
+	fmt.Println("Message wurde gespeichert!!")
+	newID, _ := result.LastInsertId()
+	fmt.Println(newID)
+}
+
+//groupMSG alle gespeicherten Messages einer Gruppe widergeben
 func groupMSG(w http.ResponseWriter, grID string) {
 	//Das Select Statement muss mindestens die selbe Anzahl an Argumenten haben wie sie bei groupRows gesucht werden!!!
 	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = ? AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
@@ -253,6 +254,7 @@ func processRows(w http.ResponseWriter, rows *sql.Rows) {
 		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
 
+	fmt.Println("Nachrichten wurden widergegeben!!")
 }
 
 //pRallAcc (ProcessRaw) alle Acoounts Suchen
@@ -305,6 +307,7 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		return
 	}
 
+	fmt.Println("Nachrichten der Gruppe %s wurden widergegeben!!", groupName)
 }
 
 //checkErr
