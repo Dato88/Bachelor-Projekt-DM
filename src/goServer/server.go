@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
 	"io"
 	"log"
 	"net/http"
@@ -244,8 +245,9 @@ func groupMSG(w http.ResponseWriter, grID string) {
 	//func groupMSG(w http.ResponseWriter) {
 	//srch := r.URL.Query().Get(":gruMSG")
 	//SQL Statement Checken da es mit dem unteren Funktioniert
-	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, n.message FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = 1 AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
-	//stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = 1 AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
+	//stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, n.message FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = 1 AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
+	//Das Select Statement muss die selbe Anzahl an Argumenten haben wie sie bei ProzessRows gesucht werden!!!
+	stmt, err := mainDB.Prepare("SELECT DISTINCT u.Vorname, c.GroupName, n.message, n.gesendeteUhrzeit FROM nachrichten n, chatgroup c, benutzer u WHERE n.GroupID = c.GroupID AND n.GroupID = 1 AND u.fdNummer = n.fdNummer ORDER BY n.gesendeteUhrzeit")
 	//stmt, err := mainDB.Prepare("SELECT message FROM nachrichten")
 	checkErr(err)
 
@@ -253,32 +255,32 @@ func groupMSG(w http.ResponseWriter, grID string) {
 	//rows, errQuery := stmt.Query(grID)
 	//rows, errQuery := stmt.Query(srch)
 	checkErr(errQuery)
-	//groupRows(w, rows)
-	processRows(w, rows)
+	groupRows(w, rows)
+	// processRows(w, rows)
 }
 
 //processRows Suche der Message Parameter
 func processRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
-	//var GroupName string
+	var GroupName string
 	var message string
-	//var gesUhrzeit string
+	var gesUhrzeit string
 
 	fmt.Println("Checkpoint1 ")
 	for rows.Next() {
 		fmt.Println("Checkpoint2 ")
-		err := rows.Scan(&vorname, &message)
-		//err := rows.Scan(&Vorname, &GroupName, &message, &gesUhrzeit)
+		//err := rows.Scan(&vorname, &message)
+		err := rows.Scan(&vorname, &GroupName, &message, &gesUhrzeit)
 		fmt.Println("Checkpoint3 ")
 		checkErr(err)
 		fmt.Println("Checkpoint4 ")
 
 		//fmt.Fprintf(w, "Nachricht: %s\n", string(message))
-		// fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
-		// 	string(Vorname), string(GroupName), string(message), string(gesUhrzeit))
+		fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
+			string(vorname), string(GroupName), string(message), string(gesUhrzeit))
 		fmt.Println("Checkpoint5 ")
 
-		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		//fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
 	fmt.Println("Checkpoint6 ")
 
@@ -305,29 +307,34 @@ func pRallAcc(w http.ResponseWriter, rows *sql.Rows) {
 //groupRows
 func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var vorname string
+	var GroupName string
 	var message string
+	var gesUhrzeit string
 
-	// chat := Chat{
-	// 	UserName: "Name",
-	// 	Messages: []Message{},
-	// }
+	chat := Chat{
+		UserName: "Name",
+		Messages: []Message{},
+	}
 
 	for rows.Next() {
 
-		err := rows.Scan(&vorname, &message)
+		// err := rows.Scan(&vorname, &message)
+		err := rows.Scan(&vorname, &GroupName, &message, &gesUhrzeit)
 		checkErr(err)
 
-		//chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
+		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
-		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		// fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
+			string(vorname), string(GroupName), string(message), string(gesUhrzeit))
 	}
 
-	// parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
-	// err := parsedTemplate.Execute(w, chat)
-	// if err != nil {
-	// 	log.Println("Fehler beim Ausführen der Template :", err)
-	// 	return
-	// }
+	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
+	err := parsedTemplate.Execute(w, chat)
+	if err != nil {
+		log.Println("Fehler beim Ausführen der Template :", err)
+		return
+	}
 
 }
 
