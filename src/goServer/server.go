@@ -259,7 +259,7 @@ func groupMSG(w http.ResponseWriter, grID string) {
 
 //processRows Suche der Message Parameter
 func processRows(w http.ResponseWriter, rows *sql.Rows) {
-	//var Vorname string
+	var vorname string
 	//var GroupName string
 	var message string
 	//var gesUhrzeit string
@@ -267,17 +267,18 @@ func processRows(w http.ResponseWriter, rows *sql.Rows) {
 	fmt.Println("Checkpoint1 ")
 	for rows.Next() {
 		fmt.Println("Checkpoint2 ")
-		err := rows.Scan(&message)
+		err := rows.Scan(&vorname, &message)
 		//err := rows.Scan(&Vorname, &GroupName, &message, &gesUhrzeit)
 		fmt.Println("Checkpoint3 ")
 		checkErr(err)
 		fmt.Println("Checkpoint4 ")
 
-		fmt.Fprintf(w, "Nachricht: %s\n", string(message))
+		//fmt.Fprintf(w, "Nachricht: %s\n", string(message))
 		// fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
 		// 	string(Vorname), string(GroupName), string(message), string(gesUhrzeit))
 		fmt.Println("Checkpoint5 ")
 
+		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 	}
 	fmt.Println("Checkpoint6 ")
 
