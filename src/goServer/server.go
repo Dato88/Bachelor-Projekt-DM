@@ -188,6 +188,7 @@ func newAcc(fdNummer string, firstName string, lastName string, age string, stud
 	result, errExec := stmt.Exec(fdNummer, firstName, lastName, age, studiengang, semester)
 	checkErr(errExec)
 
+	fmt.Println("Neuer Nutzer mit der ID " + fdNummer + " wurde erstellt!!")
 	newID, _ := result.LastInsertId()
 	fmt.Println(newID)
 }
@@ -226,7 +227,7 @@ func insertMSG(fdNummer string, GroupID string, message string) {
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
 	checkErr(errExec)
 
-	fmt.Println("Message wurde gespeichert!!")
+	fmt.Println("Message Nummer wurde gespeichert!!")
 	newID, _ := result.LastInsertId()
 	fmt.Println(newID)
 }
