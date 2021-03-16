@@ -72,14 +72,11 @@
       <!-- in UserName ist eine Liste Namens "Messages" -->
           {{with .Messages}}
             <ol>
-              {{range .}}
-                <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Vorname" und hier ins Listelement hineingebracht-->
-                    <li>{{.Vorname}}</li>
-                {{end}}
                 <!-- Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten -->
                 {{range .}}
                 <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
-                    <li>{{.Content}}</li>
+                <li>{{.Vorname}}</li>    
+                <li>{{.Content}}</li>
                 {{end}}
             </ol>
           {{end}}
