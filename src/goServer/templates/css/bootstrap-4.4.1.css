@@ -550,6 +550,13 @@ pre code {
   display: flex;
 }
 
+.sendmessage {
+  position: absolute;
+  width: 300px;
+  left: 250px;
+  bottom: 100px; 
+}
+
 @media (min-width: 576px) {
   .container {
     max-width: 540px;

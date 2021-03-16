@@ -121,10 +121,16 @@
     </div>
     <!-- /#page-content-wrapper -->
 
-    <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
-    <input name="submitmsg" type="submit"  id="submitmsg" value="Send" method="post" onclick="nachrichtSenden()" />
+    <!-- <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
+    <input name="submitmsg" type="submit"  id="submitmsg" value="Send" method="post" onclick="nachrichtSenden()" /> -->
   
   </div>
+
+  <div class="sendmessage">
+    <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
+    <input name="submitmsg" type="submit"  id="submitmsg" value="Send" method="post" onclick="nachrichtSenden()" />
+  </div>
+
   <!-- /#wrapper -->
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -145,6 +151,9 @@
     const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
     Http.open("GET", url);
     Http.send();
+    // $("#myform")[0].reset();
+    document.getElementById('texteingabe').value='';
+
 
     Http.onreadystatechange = (e) => {
     console.log(Http.responseText);
