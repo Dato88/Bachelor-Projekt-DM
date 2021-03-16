@@ -32,10 +32,10 @@ type Account struct {
 
 //Message hier wird der Inhalt und der Vorname der Nachrichten gespeichert
 type Message struct {
-	Vorname          string
-	Content          string
-	Gruppenname      string
-	GesendeteUhrzeit string
+	Vorname string
+	Content string
+	// Gruppenname      string
+	// GesendeteUhrzeit string
 }
 
 //Chat hier wird der passende Array für die Nachrichten gespeichert
@@ -296,7 +296,7 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		err := rows.Scan(&vorname, &groupName, &message, &gesUhrzeit)
 		checkErr(err)
 
-		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message, Gruppenname: groupName, GesendeteUhrzeit: gesUhrzeit})
+		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
 		//das müsste vielleicht Auskommentiert werden
 		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
