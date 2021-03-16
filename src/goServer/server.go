@@ -117,6 +117,9 @@ func main() {
 	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1
 	m.Get("/fachbereich/studiengang/semester/search/:gruMSG", http.HandlerFunc(ListMSG))
 
+	//http://bachelor-community.informatik.hs-fulda.de/search/1
+	// m.Get("/search/:gruMSG", http.HandlerFunc(ListMSG))
+
 	DbInit()
 
 	http.Handle("/fachbereich/studiengang/semester/", m)
@@ -304,8 +307,8 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		// 	string(vorname), string(groupName), string(message), string(gesUhrzeit))
 	}
 
-	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
-	//parsedTemplate, _ := template.ParseFiles("http:bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1")
+	// parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
+	parsedTemplate, _ := template.ParseFiles("http://bachelor-community.informatik.hs-fulda.de/chat1.html")
 	err := parsedTemplate.Execute(w, chat)
 	if err != nil {
 		log.Println("Fehler beim Ausführen der Template: ", err)
