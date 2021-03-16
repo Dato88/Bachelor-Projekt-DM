@@ -15,7 +15,7 @@ import (
 
 var addr = ":80"
 var staticDir = "./templates"
-var resetDB = false
+var resetDB = true
 
 const dbFile = "serverNachrichten.db"
 
