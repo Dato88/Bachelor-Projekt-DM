@@ -165,19 +165,27 @@
 
     // const url2='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
     // Http.open("GET", url2);
-    //$("#container-fluid").load(chat1.html)
+    //
   };
 
   function aktualisieren(){
     const Http = new XMLHttpRequest();
     const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
   
-    Http.onreadystatechange = function() {
-      document.getElementById("container-fluid").innerHTML = Http.responseText;
-    }
+  //   Http.onreadystatechange = function() {
+  //     if (this.readyState == 4 && this.status == 200) {
+  //       document.getElementById("container-fluid").innerHTML = Http.responseText;
+  //   }
+  // }
+  $("#container-fluid").load(url)
+    // $(document).ready(function() {
+    //   $("#container-fluid").load(url);
+    //   var refreshId = setInterval(function() {
+    //       $("#container-fluid").load(url + 1*new Date());
+    // }, 1000);
 
-    Http.open("GET", url);
-    Http.send();
+    // Http.open("GET", url);
+    // Http.send();
   }
 
   // hier ist der text container drinnen
@@ -187,6 +195,8 @@
         $("#container-fluid").load(window.location.href + "#container-fluid");
       }, 3000);
     });
+    
+});
 </script>
 
 
