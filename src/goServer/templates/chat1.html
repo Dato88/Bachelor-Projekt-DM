@@ -161,11 +161,19 @@
     Http.onreadystatechange = (e) => {
     console.log(Http.responseText);
     };
+
+    const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
+    Http.open("GET", url);
+    //$("#container-fluid").load(chat1.html)
   };
 
   // hier ist der text container drinnen
   // <div class="container-fluid"> 
-  $("#page-content-wrapper").load(location.href + '#container-fluid')
+    $(document).ready(function(){
+      setInterval(function(){
+        $("#container-fluid").load(window.location.href + "#container-fluid");
+      }, 3000);
+    });
 </script>
 
 
