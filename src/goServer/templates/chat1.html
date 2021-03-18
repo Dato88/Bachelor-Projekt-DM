@@ -167,17 +167,17 @@
   };
 
   function aktualisieren(){
-    const Http = new XMLHttpRequest();
+    const aktHttp = new XMLHttpRequest();
     const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
   
-    Http.onreadystatechange = function() {
+    aktHttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         document.getElementById("wrapper").innerHTML = this.responseText;
       }
     };
 
-    Http.open("GET", url, true);
-    Http.send();
+    aktHttp.open("GET", url);
+    aktHttp.send();
   };
    
    window.onload = aktualisieren()
