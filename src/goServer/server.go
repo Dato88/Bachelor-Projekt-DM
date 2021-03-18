@@ -302,13 +302,17 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
 		//das müsste vielleicht Auskommentiert werden
-		// fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
-		// fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
-		// 	string(vorname), string(groupName), string(message), string(gesUhrzeit))
+		fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
+		fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
+			string(vorname), string(groupName), string(message), string(gesUhrzeit))
 	}
 
+	fmt.Println("Checkpoint 1!!")
 	parsedTemplate, _ := template.ParseFiles("templates/test.html")
+	fmt.Println("Checkpoint 2!!")
 	err := parsedTemplate.Execute(w, chat)
+	fmt.Println("Checkpoint 3!!")
+
 	if err != nil {
 		log.Println("Fehler beim Ausführen der Template: ", err)
 		return
