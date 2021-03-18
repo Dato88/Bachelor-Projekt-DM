@@ -18,19 +18,6 @@
   <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
 
-<script type="text/JavaScript">
-
-  $(document).ready(function() {
-    const url32 = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
-
-      $("#container-fluid").load(url32);
-      var refreshId = setInterval(function() {
-          $("#container-fluid").load(url + 1*new Date());
-    }, 1000);
-    });
-</script>
-  
-
 </head>
 
 <body>
@@ -170,40 +157,32 @@
     const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
     Http.open("GET", url);
     Http.send();
-    // $("#myform")[0].reset();
+
+    //Eingabefeld zurücksetzen
     document.getElementById('texteingabe').value='';
 
     Http.onreadystatechange = (e) => {
     console.log(Http.responseText);
     };
-
-    // const url2='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
-    // Http.open("GET", url2);
-    //
   };
 
   function aktualisieren(){
     const Http = new XMLHttpRequest();
     const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
   
-  //   Http.onreadystatechange = function() {
-  //     if (this.readyState == 4 && this.status == 200) {
-  //       document.getElementById("container-fluid").innerHTML = Http.responseText;
-  //   }
-  // }
-  // $("#container-fluid").load(url)
-    
-    // Http.open("GET", url);
-    // Http.send();
+    Http.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("container-fluid").innerHTML = this.responseText;
+      }
+    };
+
+    Http.open("GET", url, true);
+    Http.send();
   };
 
   // hier ist der text container drinnen
   // <div class="container-fluid"> 
-    $(document).ready(function(){
-      setInterval(function(){
-        $("#container-fluid").load(window.location.href + "#container-fluid");
-      }, 3000);
-    });
+   
 </script>
 
 
