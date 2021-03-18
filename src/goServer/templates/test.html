@@ -14,14 +14,18 @@
       <h1>Nachrichten von {{.UserName}}</h1>
       <!-- in UserName ist eine Liste Namens "Messages" -->
           {{with .Messages}}
-            <ol>
+            <ul>
                 <!-- Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten -->
                 {{range .}}
                 <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
-                <li>{{.Vorname}}</li>    
-                <li>{{.Content}}</li>
+                <li>{{.Vorname}}</li>  
+                <ul>
+                  <li>{{.Content}}</li>
+                </ul>  
+
+                </br>
                 {{end}}
-            </ol>
+            </ul>
           {{end}}
 
           <p>Ende der Liste</p>

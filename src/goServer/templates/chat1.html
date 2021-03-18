@@ -65,20 +65,21 @@
 
       <div class="container-fluid">
         <h1 class="mt-4">Chat 1</h1>
+
 	    <p>Hier stehen Inhalte des Chats.</p>
 
       <!--Nachrichten Feld UserName mit der Selben Datenstruktur wie in der Go Datei-->
       <h1>Nachrichten von {{.UserName}}</h1>
       <!-- in UserName ist eine Liste Namens "Messages" -->
           {{with .Messages}}
-            <ol>
+            <ul>
                 <!-- Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten -->
                 {{range .}}
                 <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
                 <li>{{.Vorname}}</li>    
                 <li>{{.Content}}</li>
                 {{end}}
-            </ol>
+            </ul>
           {{end}}
 
           <p>Ende der Liste</p>

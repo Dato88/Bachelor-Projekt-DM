@@ -289,7 +289,7 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var gesUhrzeit string
 
 	chat := Chat{
-		UserName: "Gruppenname",
+		UserName: "Gruppe",
 		Messages: []Message{},
 	}
 
