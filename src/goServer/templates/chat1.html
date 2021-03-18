@@ -158,12 +158,14 @@
     // $("#myform")[0].reset();
     document.getElementById('texteingabe').value='';
 
-
     Http.onreadystatechange = (e) => {
     console.log(Http.responseText);
     };
   };
 
+  // hier ist der text container drinnen
+  // <div class="container-fluid"> 
+  $("#page-content-wrapper").load(location.href + '#container-fluid')
 </script>
 
 
