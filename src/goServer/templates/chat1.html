@@ -177,12 +177,12 @@
   //       document.getElementById("container-fluid").innerHTML = Http.responseText;
   //   }
   // }
-  $("#container-fluid").load(url)
-    // $(document).ready(function() {
-    //   $("#container-fluid").load(url);
-    //   var refreshId = setInterval(function() {
-    //       $("#container-fluid").load(url + 1*new Date());
-    // }, 1000);
+  // $("#container-fluid").load(url)
+    $(document).ready(function() {
+      $("#container-fluid").load(url);
+      var refreshId = setInterval(function() {
+          $("#container-fluid").load(url + 1*new Date());
+    }, 1000);
 
     // Http.open("GET", url);
     // Http.send();
