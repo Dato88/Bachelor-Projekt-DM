@@ -172,7 +172,7 @@
   
     Http.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("d-flex").innerHTML = this.responseText;
+        document.getElementById("wrapper").innerHTML = this.responseText;
       }
     };
 
