@@ -232,7 +232,7 @@ func insertMSG(fdNummer string, GroupID string, message string) {
 	result, errExec := stmt.Exec(fdNummer, GroupID, message)
 	checkErr(errExec)
 
-	fmt.Println("Message in " + GroupID + " wurde gespeichert!!")
+	fmt.Println("Message in Gruppe " + GroupID + " wurde gespeichert!!")
 	newID, _ := result.LastInsertId()
 	fmt.Println(newID)
 }
