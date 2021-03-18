@@ -17,6 +17,20 @@
 
   <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
+
+<script type="text/JavaScript">
+
+  $(document).ready(function() {
+    const url32 = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
+
+      $("#container-fluid").load(url32);
+      var refreshId = setInterval(function() {
+          $("#container-fluid").load(url + 1*new Date());
+    }, 1000);
+    });
+</script>
+  
+
 </head>
 
 <body>
@@ -178,12 +192,7 @@
   //   }
   // }
   // $("#container-fluid").load(url)
-    $(document).ready(function() {
-      $("#container-fluid").load(url);
-      var refreshId = setInterval(function() {
-          $("#container-fluid").load(url + 1*new Date());
-    }, 1000);
-    });
+    
     // Http.open("GET", url);
     // Http.send();
   };
