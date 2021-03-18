@@ -133,6 +133,7 @@
   <div class="sendmessage">
     <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
     <input name="submitmsg" type="submit"  id="submitmsg" value="Send" method="post" onclick="nachrichtSenden()" />
+    <button type="button" onclick="aktualisieren()">Aktualisieren</button>
   </div>
 
   <!-- /#wrapper -->
@@ -162,10 +163,22 @@
     console.log(Http.responseText);
     };
 
-    const url2='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
-    Http.open("GET", url2);
+    // const url2='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
+    // Http.open("GET", url2);
     //$("#container-fluid").load(chat1.html)
   };
+
+  function aktualisieren(){
+    const Http = new XMLHttpRequest();
+    const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
+  
+    Http.onreadystatechange = function() {
+      document.getElementById("container-fluid").innerHTML = Http.responseText;
+    }
+
+    Http.open("GET", url);
+    Http.send();
+  }
 
   // hier ist der text container drinnen
   // <div class="container-fluid"> 
