@@ -307,7 +307,9 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 		// 	string(vorname), string(groupName), string(message), string(gesUhrzeit))
 	}
 
-	parsedTemplate, _ := template.ParseFiles("templates/test.html")
+	//test.html funktioniert!!!
+	// parsedTemplate, _ := template.ParseFiles("templates/test.html")
+	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
 	err := parsedTemplate.Execute(w, chat)
 
 	if err != nil {
