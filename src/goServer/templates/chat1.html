@@ -183,10 +183,10 @@
       var refreshId = setInterval(function() {
           $("#container-fluid").load(url + 1*new Date());
     }, 1000);
-
+    });
     // Http.open("GET", url);
     // Http.send();
-  }
+  };
 
   // hier ist der text container drinnen
   // <div class="container-fluid"> 
@@ -195,8 +195,6 @@
         $("#container-fluid").load(window.location.href + "#container-fluid");
       }, 3000);
     });
-    
-});
 </script>
 
 
