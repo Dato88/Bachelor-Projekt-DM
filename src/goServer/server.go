@@ -15,7 +15,7 @@ import (
 
 var addr = ":80"
 var staticDir = "./templates"
-var resetDB = false
+var resetDB = true
 
 const dbFile = "serverNachrichten.db"
 
@@ -101,6 +101,8 @@ func main() {
 
 	//Ein Account und eine Gruppe muss erstellt werden um die Chatfunktionen testen zu können!!
 	//http://bachelor-community.informatik.hs-fulda.de/create/acc/fdai5761/Andrej/Miller/32/DM/5
+	//http://bachelor-community.informatik.hs-fulda.de/create/acc/fdai1234/Klaus/Kleber/19/DM/3
+	//http://bachelor-community.informatik.hs-fulda.de/create/acc/fdai4321/Anne/Kies/23/DM/2
 	m.Get("/create/acc/:fdNummer/:firstName/:lastName/:age/:studiengang/:semester", http.HandlerFunc(CreateAcc))
 
 	//http://bachelor-community.informatik.hs-fulda.de/create/group/Gruppenchat1
@@ -116,9 +118,6 @@ func main() {
 
 	//http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1
 	m.Get("/fachbereich/studiengang/semester/search/:gruMSG", http.HandlerFunc(ListMSG))
-
-	//http://bachelor-community.informatik.hs-fulda.de/search/1
-	// m.Get("/search/:gruMSG", http.HandlerFunc(ListMSG))
 
 	DbInit()
 

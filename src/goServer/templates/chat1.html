@@ -132,6 +132,7 @@
   </div>
 
   <div class="sendmessage">
+    <input type="text" id="fdNummereingabe" placeholder="Hier fd-Nummer eingeben!">
     <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
     <input name="submitmsg" type="submit"  id="submitmsg" value="Send" method="post" onclick="nachrichtSenden()" />
     <button type="button" onclick="aktualisieren()">Aktualisieren</button>
@@ -152,9 +153,10 @@
   });
 
   function nachrichtSenden(){
+    var fdNummer = document.getElementById("fdNummereingabe").value;
     var text = document.getElementById("texteingabe").value;
     const Http = new XMLHttpRequest();
-    const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
+    const url='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/'+fdNummer+'/1/'+text;
     Http.open("GET", url);
     Http.send();
 
