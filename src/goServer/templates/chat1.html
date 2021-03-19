@@ -188,6 +188,11 @@
     aktHttp.send();
   };
    
+  $(document).ready(function(){
+			window.setInterval("refreshContent()", 5000);
+			aktualisieren();
+		});
+
    window.onload = aktualisieren()
 </script>
 
