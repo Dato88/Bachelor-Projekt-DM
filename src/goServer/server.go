@@ -286,7 +286,6 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 	var groupName string
 	var message string
 	var gesUhrzeit string
-	var url string = "http://bachelor-community.informatik.hs-fulda.de/chat1.html"
 
 	chat := Chat{
 		UserName: "Gruppe",
@@ -309,8 +308,7 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 
 	//test.html funktioniert!!!
 	// parsedTemplate, _ := template.ParseFiles("templates/test.html")
-	//parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
-	parsedTemplate, _ := template.ParseFiles(url)
+	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
 	err := parsedTemplate.Execute(w, chat)
 
 	if err != nil {
