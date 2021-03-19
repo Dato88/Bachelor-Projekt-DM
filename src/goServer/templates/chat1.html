@@ -157,7 +157,9 @@
     var text = document.getElementById("texteingabe").value;
     const Http = new XMLHttpRequest();
     //const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/'+fdNummer+'/1/'+text;
-    const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Testnachricht+heute+35';
+    // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Testnachricht+heute+35';
+    const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
+
     Http.open("GET", sendURL);
     Http.send();
 
