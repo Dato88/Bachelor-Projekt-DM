@@ -138,56 +138,55 @@
 </body>
 
   <!-- /#wrapper -->
-<!-- Bootstrap core JavaScript -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
 
-<!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<script src="js/bootstrap-4.4.1.js"></script>
-<!-- Menu Toggle Script -->
+  <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+  <script src="js/bootstrap-4.4.1.js"></script>
+  <!-- Menu Toggle Script -->
 
-<script>
-  $("#menu-toggle").click(function(e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-  });
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
 
-  function nachrichtSenden(){
-    var fdNummer = document.getElementById("fdNummereingabe").value;
-    var text = document.getElementById("texteingabe").value;
-    const Http = new XMLHttpRequest();
-    const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/'+fdNummer+'/1/'+text;
-    // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Testnachricht+heute+35';
-    // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
+    function nachrichtSenden(){
+      var fdNummer = document.getElementById("fdNummereingabe").value;
+      var text = document.getElementById("texteingabe").value;
+      const Http = new XMLHttpRequest();
+      const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/'+fdNummer+'/1/'+text;
+      // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Testnachricht+heute+35';
+      // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
 
-    Http.open("GET", sendURL);
-    Http.send();
+      Http.open("GET", sendURL);
+      Http.send();
 
-    //Eingabefeld zurücksetzen
-    document.getElementById('texteingabe').value='';
+      //Eingabefeld zurücksetzen
+      document.getElementById('texteingabe').value='';
 
-    Http.onreadystatechange = (e) => {
-    console.log(Http.responseText);
-    };
-  };
-
-  function aktualisieren(){
-    const aktHttp = new XMLHttpRequest();
-    const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
-  
-    aktHttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("wrapper").innerHTML = this.responseText;
-      }
+      Http.onreadystatechange = (e) => {
+      console.log(Http.responseText);
+      };
     };
 
-    aktHttp.open("GET", url);
-    aktHttp.send();
-  };
+    function aktualisieren(){
+      const aktHttp = new XMLHttpRequest();
+      const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
+    
+      aktHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("wrapper").innerHTML = this.responseText;
+        }
+      };
 
-   window.onload = aktualisieren()
-</script>
+      aktHttp.open("GET", url);
+      aktHttp.send();
+    };
 
+    window.onload = aktualisieren()
+  </script>
 
 </body>
 
