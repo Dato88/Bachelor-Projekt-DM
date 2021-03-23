@@ -75,7 +75,7 @@
           <h1>Nachrichten von {{.UserName}}</h1>
           <!-- in UserName ist eine Liste Namens "Messages" -->
             {{with .Messages}}
-              <ul>
+              
                   <!-- Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten -->
                   {{range .}}
                   <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
@@ -89,7 +89,7 @@
 
                   <!-- </br> -->
                   {{end}}
-              </ul>
+      
             {{end}}
 
           <p>Ende der Liste</p>
