@@ -10307,8 +10307,10 @@ textarea {
 	width: 500px;
 }
 
-.name_chat {
+.name-chat {
   font-weight: bold !important;
+  font-size: large;
+  color: red;
 }
 
 .content_chat {
