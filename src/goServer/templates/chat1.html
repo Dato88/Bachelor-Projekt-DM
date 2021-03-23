@@ -67,30 +67,23 @@
         </nav>
 
         <div id="container-fluid" class = "container-fluid">
-          
-          <h1 class="mt-4">Chat 1</h1>
-          <p>Hier stehen Inhalte des Chats.</p>
 
           <!--Nachrichten Feld UserName mit der Selben Datenstruktur wie in der Go Datei-->
-          <h1>Nachrichten von {{.UserName}}</h1>
+          <h1 class="mt-4">Nachrichten von {{.UserName}}</h1>
           <!-- in UserName ist eine Liste Namens "Messages" -->
             {{with .Messages}}
               
                   <!-- Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten -->
                   {{range .}}
-                  <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
-                  <div class="container-chat">
-                    <p font-weight: bold>{{.Vorname}}</p>  
-                      <p>{{.Content}}</p>
-                  </div>
+                    <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
+                    <div class="container-chat">
+                      <p class="name_chat">{{.Vorname}}</p>  
+                        <p class="content_chat">{{.Content}}</p>
+                    </div>
        
-
-                  <!-- </br> -->
                   {{end}}
       
             {{end}}
-
-          <p>Ende der Liste</p>
           
         </div>
       </div>

@@ -10306,4 +10306,12 @@ textarea {
 	height: auto;
 	width: 500px;
 }
+
+.name_chat {
+  font-weight: bold;
+}
+
+.content_chat {
+  font-style: italic;
+}
 /*# sourceMappingURL=bootstrap.css.map */
