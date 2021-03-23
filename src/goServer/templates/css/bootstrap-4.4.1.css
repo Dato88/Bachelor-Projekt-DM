@@ -10308,10 +10308,10 @@ textarea {
 }
 
 .name_chat {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 .content_chat {
-  font-style: italic;
+  font-style: italic !important;
 }
 /*# sourceMappingURL=bootstrap.css.map */
