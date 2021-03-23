@@ -2,194 +2,163 @@
 
 <html lang="de">
 
-<head>
+  <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>chat@hs-fulda profil</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>chat@hs-fulda profil</title>
 
-  <!-- Bootstrap core CSS -->
-  <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
-  <link href="css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
 
-  <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
 
-</head>
+  </head>
 
-<body>
- 
-  <div class="d-flex" id="wrapper">
+  <body>
 
-    <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading"><strong><a href="index.html"><img src="images/logo.png"></a></strong> </div>
-      
-      <div class="list-group list-group-flush">
-        <a href="index.html" class="list-group-item list-group-item-action bg-light">chat@hs-fulda</a>
-        <div class="dropdown show"> <a class="btn btn-lg dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Chats </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="chat.html">Chatübersicht</a>
-            <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="chat1.html">Chat 1</a> 
-            <a class="dropdown-item" href="chat2.html">Chat 2</a>
-            <a class="dropdown-item" href="chat3.html">Chat 3</a>
-            <!-- 
+    <!-- Bereich der Seite der neu geladen wird -->
+    <div class="d-flex" id="wrapper">
+
+      <!-- Sidebar -->
+      <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading"><strong><a href="index.html"><img src="images/logo.png"></a></strong> </div>
+        
+        <div class="list-group list-group-flush">
+          <a href="index.html" class="list-group-item list-group-item-action bg-light">chat@hs-fulda</a>
+          <div class="dropdown show"> <a class="btn btn-lg dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Chats </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="chat.html">Chatübersicht</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Seperated Link</a> </div>
-            -->
-		      </div>
-		    </div>
-        
-        <a href="profil.html" class="list-group-item list-group-item-action bg-light">Profil</a>
-		    <a href="index.html" class="list-group-item list-group-item-action bg-light">Logout</a>
-		  </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Menü&nbsp;</button>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-          </ul>
-        </div>
-      </nav>
-
-      <div id="container-fluid" class = "container-fluid">
-        
-        <h1 class="mt-4">Chat 1</h1>
-        <p>Hier stehen Inhalte des Chats.</p>
-
-        <!--Nachrichten Feld UserName mit der Selben Datenstruktur wie in der Go Datei-->
-        <h1>Nachrichten von {{.UserName}}</h1>
-        <!-- in UserName ist eine Liste Namens "Messages" -->
-          {{with .Messages}}
-            <ul>
-                <!-- Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten -->
-                {{range .}}
-                <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
-                <li>{{.Vorname}}</li>  
-                <ul>
-                  <li>{{.Content}}</li>
-                </ul>  
-
-                </br>
-                {{end}}
-            </ul>
-          {{end}}
-
-        <p>Ende der Liste</p>
+                <a class="dropdown-item" href="chat1.html">Chat 1</a> 
+              <a class="dropdown-item" href="chat2.html">Chat 2</a>
+              <a class="dropdown-item" href="chat3.html">Chat 3</a>
+              <!-- 
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Seperated Link</a> </div>
+              -->
+            </div>
+          </div>
           
-		<!-- <div>		
-			<div class="container-chat">
-  				<img src="https://cdn.pixabay.com/photo/2013/07/13/10/00/face-156459_960_720.png" alt="Avatar">
-  				<p>Hey, hast du die Aufgabe 5 schon erledigt?</p>
-  				<span class="time-right">11:00</span>
-			</div>
-
-			<div class="container-chat">
-			  	<img src="https://cdn.pixabay.com/photo/2016/04/01/10/42/cranium-1299985_960_720.png" alt="Avatar" class="right">
-			  	<p align="right">Hey! Ne leider nicht. Wollen wir sie zusammen machen?</p>
-			  	<span class="time-left">11:01</span>
-			</div>
-
-			<div class="container-chat">
-			    <img src="https://cdn.pixabay.com/photo/2013/07/13/10/00/face-156459_960_720.png" alt="Avatar">
-			    <p>Ja klar! Passt dir 13 Uhr?</p>
-			    <span class="time-right">11:02</span>
-			</div>
-
-		  <div class="container-chat">
-			    <img src="https://cdn.pixabay.com/photo/2016/04/01/10/42/cranium-1299985_960_720.png" alt="Avatar" class="right">
-			    <p align="right">Passt super, bis dann!</p>
-			  <span class="time-left">11:05</span>
-		  </div>
-			
-			
-    	<form name="message" action="">
-			<textarea name="Texteingabe" placeholder="Hier Text eingeben..." wrap="virtual"></textarea>
-        	<input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
-    	</form> -->
-		<!-- </div> -->
+          <a href="profil.html" class="list-group-item list-group-item-action bg-light">Profil</a>
+          <a href="index.html" class="list-group-item list-group-item-action bg-light">Logout</a>
+        </div>
       </div>
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          <button class="btn btn-primary" id="menu-toggle">Menü&nbsp;</button>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            </ul>
+          </div>
+        </nav>
+
+        <div id="container-fluid" class = "container-fluid">
+          
+          <h1 class="mt-4">Chat 1</h1>
+          <p>Hier stehen Inhalte des Chats.</p>
+
+          <!--Nachrichten Feld UserName mit der Selben Datenstruktur wie in der Go Datei-->
+          <h1>Nachrichten von {{.UserName}}</h1>
+          <!-- in UserName ist eine Liste Namens "Messages" -->
+            {{with .Messages}}
+              <ul>
+                  <!-- Mit dem range Operator durchlaufe ich alle entsprechenden Nachrichten -->
+                  {{range .}}
+                  <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
+                  <div class="container-chat">
+                    <li>{{.Vorname}}</li>  
+                    <ul>
+                      <li>{{.Content}}</li>
+                    </ul> 
+                  </div>
+       
+
+                  <!-- </br> -->
+                  {{end}}
+              </ul>
+            {{end}}
+
+          <p>Ende der Liste</p>
+          
+        </div>
+      </div>
+
+
+      <div class="sendmessage">
+        <input type="text" id="fdNummereingabe" placeholder="Hier fd-Nummer eingeben!">
+        <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
+        <input name="submitmsg" type="submit"  id="submitmsg" value="Send" method="post" onclick="nachrichtSenden()" />
+        <button type="button" onclick="aktualisieren()">Aktualisieren</button>
+      </div>
+
     </div>
 
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
 
-    <!-- /#page-content-wrapper -->
-    <div class="sendmessage">
-      <input type="text" id="fdNummereingabe" placeholder="Hier fd-Nummer eingeben!">
-      <input type="text" id="texteingabe" placeholder="Hier Text eingeben!">
-      <input name="submitmsg" type="submit"  id="submitmsg" value="Send" method="post" onclick="nachrichtSenden()" />
-      <button type="button" onclick="aktualisieren()">Aktualisieren</button>
-    </div>
+    <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+    <script src="js/bootstrap-4.4.1.js"></script>
+    <!-- Menu Toggle Script -->
 
-  </div>
-</body>
+    <script>
+      $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
 
-  <!-- /#wrapper -->
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="js/popper.min.js"></script>
+      function nachrichtSenden(){
+        var fdNummer = document.getElementById("fdNummereingabe").value;
+        var text = document.getElementById("texteingabe").value;
+        const Http = new XMLHttpRequest();
+        const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/'+fdNummer+'/1/'+text;
+        // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Testnachricht+heute+35';
+        // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
 
-  <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-  <script src="js/bootstrap-4.4.1.js"></script>
-  <!-- Menu Toggle Script -->
+        Http.open("GET", sendURL);
+        Http.send();
 
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
+        //Eingabefeld zurücksetzen
+        document.getElementById('texteingabe').value='';
 
-    function nachrichtSenden(){
-      var fdNummer = document.getElementById("fdNummereingabe").value;
-      var text = document.getElementById("texteingabe").value;
-      const Http = new XMLHttpRequest();
-      const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/'+fdNummer+'/1/'+text;
-      // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/Testnachricht+heute+35';
-      // const sendURL='http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/add/fdai5761/1/'+text;
+        Http.onreadystatechange = (e) => {
+        console.log(Http.responseText);
+        };
 
-      Http.open("GET", sendURL);
-      Http.send();
-
-      //Eingabefeld zurücksetzen
-      document.getElementById('texteingabe').value='';
-
-      Http.onreadystatechange = (e) => {
-      console.log(Http.responseText);
+        aktualisieren();
       };
+
+      function aktualisieren(){
+        const aktHttp = new XMLHttpRequest();
+        const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
       
-      aktualisieren();
-    };
+        aktHttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("wrapper").innerHTML = this.responseText;
+          }
+        };
 
-    function aktualisieren(){
-      const aktHttp = new XMLHttpRequest();
-      const url = 'http://bachelor-community.informatik.hs-fulda.de/fachbereich/studiengang/semester/search/1';
-    
-      aktHttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("wrapper").innerHTML = this.responseText;
-        }
+        aktHttp.open("GET", url);
+        aktHttp.send();
       };
 
-      aktHttp.open("GET", url);
-      aktHttp.send();
-    };
+      window.onload = aktualisieren()
+    </script>
 
-    window.onload = aktualisieren()
-  </script>
-
-</body>
+  </body>
 
 </html>
