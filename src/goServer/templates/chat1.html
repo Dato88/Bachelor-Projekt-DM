@@ -77,7 +77,9 @@
                   {{range .}}
                     <!--Die Nachricht selber hat ein Inhaltsfeld Feld "Content" und hier ins Listelement hineingebracht-->
                     <div class="container-chat">
-                      <p class="name_chat">{{.Vorname}}</p>  
+                      <div class="name_chat">
+                         <p >{{.Vorname}}</p>
+                      </div>  
                         <p class="content_chat">{{.Content}}</p>
                     </div>
        
