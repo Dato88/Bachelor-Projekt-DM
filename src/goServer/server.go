@@ -40,7 +40,6 @@ type Message struct {
 
 //Chat hier wird der passende Array für die Nachrichten gespeichert
 type Chat struct {
-	//NachrichtStr []NachrichtStr
 	UserName string
 	Messages []Message
 }
@@ -294,20 +293,17 @@ func groupRows(w http.ResponseWriter, rows *sql.Rows) {
 
 	for rows.Next() {
 
-		// err := rows.Scan(&vorname, &message)
 		err := rows.Scan(&vorname, &groupName, &message, &gesUhrzeit)
 		checkErr(err)
 
 		chat.Messages = append(chat.Messages, Message{Vorname: vorname, Content: message})
 
-		//das müsste vielleicht Auskommentiert werden
+		//das wir nur zum Testen verwendet
 		// fmt.Fprintf(w, "Nachricht von: %s, Nachricht: %s\n", string(vorname), string(message))
 		// fmt.Fprintf(w, "Name: %s\n, Gruppe: %s\n, Nachricht: %s\n, gesUhrzeit: %s\n",
 		// 	string(vorname), string(groupName), string(message), string(gesUhrzeit))
 	}
 
-	//test.html funktioniert!!!
-	// parsedTemplate, _ := template.ParseFiles("templates/test.html")
 	parsedTemplate, _ := template.ParseFiles("templates/chat1.html")
 	err := parsedTemplate.Execute(w, chat)
 
